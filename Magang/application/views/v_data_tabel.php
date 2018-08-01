@@ -92,7 +92,7 @@
         </ul>
       </div>
 
-      <div class="row">
+      <div class="row" style="width: 100%;" >
         <div class="btn-group">
           <form method="get" action="tambah_data">
               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#myModal" style="color: white;background-color: #03a9f4"><i class="icon far fa-calendar-plus"> </i>Tambah Data
@@ -109,6 +109,7 @@
               </button>
           </form>
         </div>
+      </div>
 
         <div id="myModal" class="modal fade" role="dialog">
           <div class="modal-dialog">
@@ -154,7 +155,8 @@
                             <div class="col-sm-5">
                               <label for="usr">Type</label>
                               <select class="form-control" name="type">
-                                <option value="Baru">Baru</option>
+                                <option value="New">New</option>
+                                <option value="Existing">Existing</option>
                                 <option value="Upgrade">Upgrade</option>
                                 <option value="Downgrade">Downgrade</option>
                               </select>
@@ -280,18 +282,18 @@
 
 
 
-        <div class="card-body">
+        <div class="card-body" style="background-color: #f5f6fa">
           <div class="table-responsive">
             <table id="example" class="table table-striped table-bordered" style="width:100%;">
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Nama PIC</th>
+                  <th>PIC</th>
                   <th>Nama Project</th>
                   <th>Instansi</th>
                   <th>Type</th>
                   <th>Divisi</th>
-                  <th>Esti Pendapatan</th>
+                  <th>Pagu</th>
                   <th>Pendapatan (SPK)</th>
                   <th>Tanggal</th>
                   <th>Aksi</th>

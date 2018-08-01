@@ -95,7 +95,7 @@
       </div>
 
       <div>
-          <form method="post" action="<?php echo base_url().'Admin/manager'; ?>">
+          <form method="post" action="<?php echo base_url().'Admin/manager';?>">
             <select name="tahun" style="width: 100px; height: 25px;">
                 <?php  
                 $thn_skr = date('Y');
@@ -153,6 +153,29 @@
               chart.draw(data,options);
             }
           </script>
+        </div>
+
+        <div id="donutchart" style="width:500px; height: 300px;margin-top:30px;">
+         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> 
+         <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']}); 
+          google.charts.setOnLoadCallback(drawChart); 
+
+          function drawChart() { 
+            var jsonData = $.ajax({ 
+                url: "<?php echo base_url('Admin/grafik_d')?>", 
+                dataType: "json", 
+                async: false 
+                }).responseText; 
+            var options = {
+                pieHole: 0.4,
+              };
+            var data = new google.visualization.DataTable(jsonData);
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart')); 
+            chart.draw(data, options); 
+          } 
+         </script>
         </div>
       </div>
 
@@ -236,43 +259,70 @@
           });
           </script>
         </canvas>
-      </div>
 
-      <div id="bawah">
-        <div id="donutchart" style="width: 500px; height: 400px;">
-          <?php
-              // $data_string = '';    
-              foreach($d_donut as $hasil_d){
-              // $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Estimasi Pendapatan";
-              $warna  = ($key == "tot_real")?"#76A7FA":"#e5e4e2";
-              $data_d .= "[''".",". $hasil_d ."],";
-              }
-          ?>
-        <script type="text/javascript">
-          google.charts.load("current", {packages:["corechart"]});
-          google.charts.setOnLoadCallback(drawChart);
-          function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-              ['Task', 'Hours per Day'],
-              <?php
-              echo $data_d;
-              ?>
-            ]);
-            var options = {
-              pieHole: 0.4,
-              backgroundColor: { fill:'transparent' }
-            };
-
-            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-            chart.draw(data, options);
-          }
-        </script>
+        <div style="margin-top:30px;height: 50px;">
+            <div class="widget-small primary coloured-icon" style="width: 250px;">
+              <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
+              <div class="info" style="width: 200px;height: 30px;">
+                <h6>Client Baru</h6>
+                <?php
+                  foreach ($jml_new->result() as $row) {
+                    ?>
+                    <p><b><?php echo $row->tot_new ?></b></p>
+                  <?php
+                  }
+                ?>
+              </div>
+            </div>
         </div>
-      </div>
-      
+        <div style="margin-top:20px;height: 50px;">
+            <div class="widget-small primary coloured-icon" style="width: 250px;">
+              <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
+              <div class="info" style="width: 200px;height: 30px;">
+                <h6>Client Existing</h6>
+                <?php
+                  foreach ($jml_exist->result() as $row) {
+                    ?>
+                    <p><b><?php echo $row->tot_exist ?></b></p>
+                  <?php
+                  }
+                ?>
+              </div>
+            </div>
+        </div>
+        <div style="margin-top:20px;height: 50px;">
+            <div class="widget-small primary coloured-icon" style="width: 250px;">
+              <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
+              <div class="info" style="width: 200px;height: 30px;">
+                <h6>Client Upgrade</h6>
+                <?php
+                  foreach ($jml_up->result() as $row) {
+                    ?>
+                    <p><b><?php echo $row->tot_up ?></b></p>
+                  <?php
+                  }
+                ?>
+              </div>
+            </div>
+        </div>
+        <div style="margin-top:20px;height: 50px;">
+            <div class="widget-small primary coloured-icon" style="width: 250px;">
+              <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
+              <div class="info" style="width: 200px;height: 30px;">
+                <h6>Client Downgrade</h6>
+                <?php
+                  foreach ($jml_down->result() as $row) {
+                    ?>
+                    <p><b><?php echo $row->tot_down ?></b></p>
+                  <?php
+                  }
+                ?>
+              </div>
+            </div>
+        </div>
+      </div>      
 
     </main>
-    <!-- Essential javascripts for application to work-->
     <script src="<?php echo base_url('assets/docs/js/jquery-3.2.1.min.js')?>"></script>
     <script src="<?php echo base_url('assets/docs/js/popper.min.js')?>"></script>
     <script src="<?php echo base_url('assets/docs/js/bootstrap.min.js')?>"></script>
@@ -298,8 +348,8 @@
       }
        #bawah
       {
-      margin-left: 320px;
-      margin-top:400px;
+      margin-left: 220px;
+      margin-top:450px;
       }
     </style>
   </body>

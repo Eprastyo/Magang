@@ -130,9 +130,10 @@
                         <?php 
                             echo '<option value="'.$u->type.'" selected>'.$u->type.'</option>';
                         ?>
-                        <option value="Baru">Baru</option>
-                        <option value="Upgrade">Upgrade</option>
-                        <option value="Downgrade">Downgarde</option>
+                         <option value="New">New</option>
+                         <option value="Existing">Existing</option>
+                         <option value="Upgrade">Upgrade</option>
+                         <option value="Downgrade">Downgrade</option>
                        </select>
                     </div>
                   </div>

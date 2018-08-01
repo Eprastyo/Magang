@@ -4,6 +4,7 @@ class Admin extends CI_Controller{
 	function __construct(){
 		parent::__construct();		
 		$this->load->model('M_data');
+		$this->load->helper('string'); 
 	}
 	
 	function staff(){
@@ -20,13 +21,15 @@ class Admin extends CI_Controller{
 	function manager(){
 		if($this->session->userdata('status') == "manager"){
 			$tahun = $this->input->post('tahun');
+			$this->M_data->grafik_donut($tahun);
 		    $data['hasil'] = $this->M_data->grafik($tahun);
 		    $data['data'] = $this->M_data->grafik_pie($tahun);
-		    $data['d_donut'] = $this->M_data->grafik_donut();
-		    print_r($data);
-		    $data['departement'] = $this->M_data->grafik_donut();
 			$data['hasil_estimasi'] = $this->M_data->jumlah_estimasi($tahun);
 			$data['hasil_real'] = $this->M_data->jumlah_real($tahun);
+			$data['jml_new'] = $this->M_data->jumlah_new($tahun);
+			$data['jml_exist'] = $this->M_data->jumlah_exist($tahun);
+			$data['jml_up'] = $this->M_data->jumlah_up($tahun);
+			$data['jml_down'] = $this->M_data->jumlah_down($tahun);  
 			$data['search'] = $tahun;
 			$this->load->view('v_hal_utama_manager',$data);
 		}
@@ -235,7 +238,6 @@ class Admin extends CI_Controller{
 
 	function data_grafik(){
  		  		$data  = $this->M_data->hasil_grafik();
- 			
 				$asd->cols[] = array( 
 		            "id" => "", 
 		            "label" => "Topping", 
@@ -264,12 +266,33 @@ class Admin extends CI_Controller{
         echo json_encode($asd);   
 	}
 
-	function coba(){
-		// $data['data']  = $this->M_data->coba();
-		$this->load->view('v_grafik_coba');
-	}
-
-	function model(){
-		$this->load->view('v_model');
+	function grafik_d(){
+			$hasil_d = $this->M_data->grafik_donut($tahun);
+		    $responce->cols[] = array( 
+		        "id" => "", 
+		        "label" => "Topping", 
+		        "pattern" => "", 
+		        "type" => "string" 
+		    ); 
+		    $responce->cols[] = array( 
+		        "id" => "", 
+		        "label" => "Total", 
+		        "pattern" => "", 
+		        "type" => "number" 
+		    ); 
+		    foreach($hasil_d as $cd) 
+		        { 
+		        $responce->rows[]["c"] = array( 
+		            array( 
+		                "v" => "$cd->divisi", 
+		                "f" => null 
+		            ) , 
+		            array( 
+		                "v" => (int)$cd->tot_real, 
+		                "f" => null 
+		            )
+		        );
+		        }
+		    echo json_encode($responce); 
 	}
 }
