@@ -98,7 +98,7 @@
                   <input type="text" name="instansi" class="form-control">
                 </div>
               </div>
-               <div class="form-group">
+              <div class="form-group">
                 <div class="container">
                   <div class="row">
                     <div class="col-sm-3">
@@ -111,7 +111,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <input type="text" name="keterangan" class="form-control"> -->
               </div>
   
               <div class="form-group">

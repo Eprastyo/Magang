@@ -3,7 +3,7 @@
     <?php
     function rupiah($angka){
       
-      $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
+      $hasil_rupiah = "" . number_format($angka,2,',','.');
       return $hasil_rupiah;
      
     }
@@ -23,16 +23,22 @@
   <body class="app sidebar-mini rtl">
     <!-- Navbar-->
     <header class="app-header">
-      <a class="app-header__logo" href="index.html"></a>
+      <a class="app-header__logo" href="manager">
+        <p></p>
+      </a>
       <a class="app-sidebar__toggle fas fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
         <!-- User Menu-->
-        <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fas fa-user fa-lg"></i></a>
+        <li class="dropdown">
+          <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+            <?php echo $this->session->userdata('nama');?>
+            <i class="fas fa-user fa-lg"></i>
+          </a>
           <ul class="dropdown-menu settings-menu dropdown-menu-right">
             <!-- <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
             <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li> -->
-            <li><a class="dropdown-item" href="<?php echo base_url('Login/logout') ?>"><i class="fa fa-sign-out fa-lg"></i> Logout</a></li>
+            <li><a class="dropdown-item" href="<?php echo base_url('Login/logout') ?>"><i class="fas fa-sign-out-alt fa-lg"></i> Logout</a></li>
           </ul>
         </li>
       </ul>
@@ -42,8 +48,8 @@
     <aside class="app-sidebar">
       <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://scontent-sin6-2.xx.fbcdn.net/v/t1.0-9/14691064_1126674984081042_7683922444718356585_n.png?_nc_cat=0&oh=8da3a15e5c5227e8b686de6905046eec&oe=5BD20F44" alt="User Image" style="width: 25%;">
         <div>
-          <p class="app-sidebar__user-name">time excelindo</p>
-          <p class="app-sidebar__user-designation">ICT Service Provider</p>
+          <p class="app-sidebar__user-name"><?php echo $this->session->userdata('nama');?></p>
+          <p class="app-sidebar__user-designation"><?php echo $this->session->userdata('status');?></p>
         </div>
       </div>
 
@@ -63,7 +69,11 @@
           <ul class="treeview-menu">
             <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel')?>">
-                <i class="icon fab fa-uikit"></i>Staff</a>
+                <i class="icon fab fa-uikit"></i>Utama</a>
+            </li>
+            <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
+                <i class="icon fab fa-uikit"></i>Department</a>
             </li>
           </ul>
         </li>
@@ -82,9 +92,8 @@
         </ul>
       </div>
 
-
       <div class="row">
- <!--        <div class="card-body"> -->
+        <div class="btn-group">
           <form method="get" action="tambah_data">
               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#myModal" style="color: white;background-color: #03a9f4"><i class="icon far fa-calendar-plus"> </i>Tambah Data
               </button>
@@ -94,7 +103,12 @@
               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#tambah-staff" style="color: white;background-color: #03a9f4"><i class="icon fas fa-user-plus"> </i>Tambah Staff
               </button>
           </form>
-    <!--     </div> -->
+
+          <form method="get" action="daftar_staff">
+              <button class="btn btn-default" type="submit" style="color: white;background-color: #03a9f4"><i class="icon fas fa-user-plus"> </i>Lihat Staff
+              </button>
+          </form>
+        </div>
 
         <div id="myModal" class="modal fade" role="dialog">
           <div class="modal-dialog">
@@ -112,7 +126,14 @@
                       <div class="form-group">
                         <div class="col-sm-10">
                           <label for="usr">Nama PIC</label>
-                          <input type="text" name="nama" class="form-control">
+                          <select class="form-control" name="nama">
+                          <?php 
+                          foreach($nama_staff as $row)
+                          { 
+                            echo '<option value="'.$row->nama.'">'.$row->nama.'</option>';
+                          }
+                          ?>
+                          </select>
                         </div>
                       </div>
                       <div class="form-group">
@@ -140,7 +161,6 @@
                             </div>
                           </div>
                         </div>
-                        <!-- <input type="text" name="keterangan" class="form-control"> -->
                       </div>
           
                       <div class="form-group">
@@ -149,10 +169,12 @@
                             <div class="col-sm-5">
                               <label for="usr">Divisi</label>
                               <select class="form-control" name="divisi">
-                                <option value="Infrastruktur">Dep Infrastruktur</option>
-                                <option value="Software Development">Dep Software Dev</option>
-                                <option value="ISP">Dep ISP</option>
-                                <option value="BDC">Dep BDC</option>
+                                <?php 
+                                foreach($nama_dept as $row)
+                                { 
+                                  echo '<option value="'.$row->nama_department.'">'.$row->nama_department.'</option>';
+                                }
+                                ?>
                               </select>
                             </div>
                           </div>
@@ -179,7 +201,7 @@
                       </div>
                       <div class="form-group">
                         <div class="col-sm-5">
-                          <button type="submit" style="background-color: #0abde3;color: white" name="upload" class="btn btn-default" >Tambah</button>
+                          <button type="submit" style="background-color: #03a9f4;color: white" name="upload" class="btn btn-default" >Tambah</button>
                         </div>
                       </div>
                     </div>
@@ -193,7 +215,6 @@
             </div>
           </div>
         </div>
-
 
 
       <div id="tambah-staff" class="modal fade" role="dialog">
@@ -207,79 +228,42 @@
               </div>
               <!-- body modal -->
               <div class="modal-body">
-                 <form action="<?php echo base_url(). 'Admin/tambah_data_utama'; ?>" method="post"> 
+                 <form action="<?php echo base_url(). 'Admin/tambah_data_staff'; ?>" method="post"> 
                     <div class="card-mb">
                       <div class="form-group">
                         <div class="col-sm-10">
-                          <label for="usr">Nama PIC</label>
+                          <label for="usr">Nama</label>
                           <input type="text" name="nama" class="form-control">
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="col-sm-10">
-                          <label for="usr">Nama Project</label>
-                          <input type="text" name="nama_project" class="form-control">
-                      </div>
+                          <label for="usr">Password</label>
+                          <input type="password" name="password" class="form-control">
                         </div>
+                      </div>
                       <div class="form-group">
-                        <div class="col-sm-10">
-                          <label for="usr">Instansi</label>
-                          <input type="text" name="instansi" class="form-control">
-                        </div>
-                      </div>
-                       <div class="form-group">
-                        <div class="container">
+                       <div class="container">
                           <div class="row">
                             <div class="col-sm-5">
-                              <label for="usr">Type</label>
-                              <select class="form-control" name="type">
-                                <option value="Baru">Baru</option>
-                                <option value="Upgrade">Upgrade</option>
-                                <option value="Downgrade">Downgrade</option>
+                              <label for="usr">Level</label>
+                              <select class="form-control" name="level">
+                                <option value="staff">Staff</option>
+                                <option value="manager">Admin/Manager</option>
                               </select>
                             </div>
                           </div>
                         </div>
-                        <!-- <input type="text" name="keterangan" class="form-control"> -->
                       </div>
-          
                       <div class="form-group">
-                        <div class="container">
-                          <div class="row">
-                            <div class="col-sm-5">
-                              <label for="usr">Divisi</label>
-                              <select class="form-control" name="divisi">
-                                <option value="Infrastruktur">Dep Infrastruktur</option>
-                                <option value="Software Development">Dep Software Dev</option>
-                                <option value="ISP">Dep ISP</option>
-                                <option value="BDC">Dep BDC</option>
-                              </select>
+                        <div class="col-sm-5">
+                            <div class="btn-group">
+                                  <button class="btn btn-default" type="submit" name="upload" style="color: white;background-color: #03a9f4">Simpan
+                                  </button>
+                              
+                                  <button class="btn btn-default" type="submit" data-dismiss="modal" style="color: white;background-color: #e91e63">Cancel
+                                  </button>
                             </div>
-                          </div>
-                        </div>
-                        <!-- <input type="text" name="keterangan" class="form-control"> -->
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-10">
-                          <label for="usr">Estimasi Pendapatan</label>
-                          <input type="text" name="est_pendapatan" class="form-control">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-10">
-                          <label for="usr">Real Pendapatan</label>
-                          <input type="text" name="real_pendapatan" class="form-control">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-5">
-                          <label for="usr">Tanggal</label>
-                          <input type="date" name="tanggal">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-5">
-                          <button type="submit" style="background-color: #0abde3;color: white" name="upload" class="btn btn-default" >Tambah</button>
                         </div>
                       </div>
                     </div>
@@ -296,10 +280,9 @@
 
 
 
-
         <div class="card-body">
           <div class="table-responsive">
-            <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <table id="example" class="table table-striped table-bordered" style="width:100%;">
               <thead>
                 <tr>
                   <th>No</th>
@@ -327,8 +310,8 @@
                 <td><?php echo $hasil->instansi ?></td>
                 <td><?php echo $hasil->type ?></td>
                 <td><?php echo $hasil->divisi ?></td>
-                <td><?php echo $hasil->esti_pendapatan ?></td>
-                <td><?php echo $hasil->real_pendapatan ?></td>
+                <td><?php echo rupiah($hasil->esti_pendapatan) ?></td>
+                <td><?php echo rupiah($hasil->real_pendapatan) ?></td>
                 <td><?php echo $hasil->tanggal ?></td>
                 <td>
                   <center>

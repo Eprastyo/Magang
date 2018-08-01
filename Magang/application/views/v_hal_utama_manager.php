@@ -23,12 +23,18 @@
   <body class="app sidebar-mini rtl">
     <!-- Navbar-->
     <header class="app-header">
-      <a class="app-header__logo" href="index.html"></a>
+      <a class="app-header__logo" href="">
+          <p class="app-sidebar__user-designation"></p>
+      </a>
       <a class="app-sidebar__toggle fas fa-bars" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
       <!-- Navbar Right Menu-->
       <ul class="app-nav">
         <!-- User Menu-->
-        <li class="dropdown"><a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu"><i class="fas fa-user fa-lg"></i></a>
+        <li class="dropdown">
+          <a class="app-nav__item" href="#" data-toggle="dropdown" aria-label="Open Profile Menu">
+            <?php echo $this->session->userdata('nama');?>
+            <i class="fas fa-user fa-lg"></i>
+           </a>
           <ul class="dropdown-menu settings-menu dropdown-menu-right">
             <!-- <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
             <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li> -->
@@ -42,8 +48,8 @@
     <aside class="app-sidebar">
       <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://scontent-sin6-2.xx.fbcdn.net/v/t1.0-9/14691064_1126674984081042_7683922444718356585_n.png?_nc_cat=0&oh=8da3a15e5c5227e8b686de6905046eec&oe=5BD20F44" alt="User Image" style="width: 25%;">
         <div>
-          <p class="app-sidebar__user-name">time excelindo</p>
-          <p class="app-sidebar__user-designation">ICT Service Provider</p>
+          <p class="app-sidebar__user-name"><?php echo $this->session->userdata('nama');?></p>
+          <p class="app-sidebar__user-designation"><?php echo $this->session->userdata('status');?></p>
         </div>
       </div>
       <ul class="app-menu">
@@ -62,7 +68,15 @@
           <ul class="treeview-menu">
             <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel')?>">
-                <i class="icon fab fa-uikit"></i>Staff</a>
+              <i class="icon fab fa-uikit"></i>
+              Utama
+              </a>
+            </li>
+            <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
+              <i class="icon fab fa-uikit"></i>
+              Department
+              </a>
             </li>
           </ul>
         </li>
@@ -78,6 +92,22 @@
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
           <li class="breadcrumb-item"><a href="manager">Dashboard</a></li>
         </ul>
+      </div>
+
+      <div>
+          <form method="post" action="<?php echo base_url().'Admin/manager'; ?>">
+            <select name="tahun" style="width: 100px; height: 25px;">
+                <?php  
+                $thn_skr = date('Y');
+                for ($x = $thn_skr; $x >= 2010; $x--) {
+                ?>
+                    <option value="<?php echo $x ?>"><?php echo $x ?></option>
+                <?php
+                }
+                ?>
+            </select>
+            <button type="submit" style="height: 25px;">Tahun</button>
+          </form>
       </div>
 
       <div id="kiri">
@@ -141,7 +171,7 @@
               </div>
             </div>
         </div>
-        <canvas id="myChart" style="width:80%; height: 470px;background-color: white;">
+        <canvas id="myChart" style="width:80%; height: 480px;background-color: white;">
           <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
             <?php
                 foreach($hasil as $data){
@@ -208,6 +238,39 @@
         </canvas>
       </div>
 
+      <div id="bawah">
+        <div id="donutchart" style="width: 500px; height: 400px;">
+          <?php
+              // $data_string = '';    
+              foreach($d_donut as $hasil_d){
+              // $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Estimasi Pendapatan";
+              $warna  = ($key == "tot_real")?"#76A7FA":"#e5e4e2";
+              $data_d .= "[''".",". $hasil_d ."],";
+              }
+          ?>
+        <script type="text/javascript">
+          google.charts.load("current", {packages:["corechart"]});
+          google.charts.setOnLoadCallback(drawChart);
+          function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+              ['Task', 'Hours per Day'],
+              <?php
+              echo $data_d;
+              ?>
+            ]);
+            var options = {
+              pieHole: 0.4,
+              backgroundColor: { fill:'transparent' }
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+          }
+        </script>
+        </div>
+      </div>
+      
+
     </main>
     <!-- Essential javascripts for application to work-->
     <script src="<?php echo base_url('assets/docs/js/jquery-3.2.1.min.js')?>"></script>
@@ -232,6 +295,11 @@
       width:50%;
       height:100px;
       float:right;
+      }
+       #bawah
+      {
+      margin-left: 320px;
+      margin-top:400px;
       }
     </style>
   </body>
