@@ -72,6 +72,12 @@
               Utama
               </a>
             </li>
+             <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/monitoring_kerja')?>">
+              <i class="icon fab fa-uikit"></i>
+              Project Monitoring
+              </a>
+            </li>
             <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
               <i class="icon fab fa-uikit"></i>
@@ -97,6 +103,7 @@
       <div>
           <form method="post" action="<?php echo base_url().'Admin/manager';?>">
             <select name="tahun" style="width: 100px; height: 25px;">
+                    <option value="<?php echo $search ?>"selected><?php echo $search ?></option>
                 <?php  
                 $thn_skr = date('Y');
                 for ($x = $thn_skr; $x >= 2010; $x--) {
@@ -126,7 +133,7 @@
             </div>
         </div>
 
-        <div id="piechart" style="width:500px; height: 300px;">
+        <div id="piechart" style="width:500px; height: 350px;">
           <?php
               $data_string = '';    
               foreach($data as $key=>$data){
@@ -155,7 +162,36 @@
           </script>
         </div>
 
-        <div id="donutchart" style="width:500px; height: 300px;margin-top:30px;">
+        <div id="asd" style="width:500px; height: 300px;margin-top:30px;"></div>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <?php  
+              $pie = "";
+              foreach($h_pie as $pie_h){
+              $pie .= "['$pie_h->divisi'".",". $pie_h->tot_real."],";
+              }
+          ?>
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+              ['Task', 'Hours per Day'],
+              <?php echo $pie ?>
+            ]);
+
+            var options = {
+              title: ''
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('asd'));
+
+            chart.draw(data, options);
+          }
+        </script>
+
+        <!-- <div id="donutchart" style="width:500px; height: 300px;margin-top:30px;">
          <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
          <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> 
          <script type="text/javascript">
@@ -176,11 +212,11 @@
             chart.draw(data, options); 
           } 
          </script>
-        </div>
+        </div> -->
       </div>
 
       <div id="kanan">
-        <div style="width: 539px;">
+        <div style="width: 530px;">
             <div class="widget-small primary coloured-icon"><i class="icon fas fa-user-check fa-3x"></i>
               <div class="info">
                 <h4>Nilai Total Pendapatan(SPK)</h4>
@@ -194,7 +230,8 @@
               </div>
             </div>
         </div>
-        <canvas id="myChart" style="width:80%; height: 480px;background-color: white;">
+
+        <canvas id="myChart" style="width:80%; height: 560px;background-color: white;">
           <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
             <?php
                 foreach($hasil as $data){
@@ -259,7 +296,6 @@
           });
           </script>
         </canvas>
-
         <div style="margin-top:30px;height: 50px;">
             <div class="widget-small primary coloured-icon" style="width: 250px;">
               <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
@@ -321,7 +357,6 @@
             </div>
         </div>
       </div>      
-
     </main>
     <script src="<?php echo base_url('assets/docs/js/jquery-3.2.1.min.js')?>"></script>
     <script src="<?php echo base_url('assets/docs/js/popper.min.js')?>"></script>

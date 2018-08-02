@@ -1,6 +1,5 @@
 <?php 
 class Admin extends CI_Controller{
- 
 	function __construct(){
 		parent::__construct();		
 		$this->load->model('M_data');
@@ -9,9 +8,11 @@ class Admin extends CI_Controller{
 	
 	function staff(){
 		if($this->session->userdata('status') == "staff"){
-		    $data['data'] = $this->M_data->grafik_pie_staff();
-			$data['hasil_estimasi'] = $this->M_data->jumlah_estimasi_staff();
-			$data['hasil_real'] = $this->M_data->jumlah_real_staff();
+			$tahun = $this->input->post('tahun');
+		    $data['data'] = $this->M_data->grafik_pie_staff($tahun);
+			$data['hasil_estimasi'] = $this->M_data->jumlah_estimasi_staff($tahun);
+			$data['hasil_real'] = $this->M_data->jumlah_real_staff($tahun);
+			$data['search'] = $tahun;
 			$this->load->view('v_hal_utama_staff',$data);
 		}else{
 			redirect(base_url('Login'));
@@ -21,7 +22,6 @@ class Admin extends CI_Controller{
 	function manager(){
 		if($this->session->userdata('status') == "manager"){
 			$tahun = $this->input->post('tahun');
-			$this->M_data->grafik_donut($tahun);
 		    $data['hasil'] = $this->M_data->grafik($tahun);
 		    $data['data'] = $this->M_data->grafik_pie($tahun);
 			$data['hasil_estimasi'] = $this->M_data->jumlah_estimasi($tahun);
@@ -29,7 +29,8 @@ class Admin extends CI_Controller{
 			$data['jml_new'] = $this->M_data->jumlah_new($tahun);
 			$data['jml_exist'] = $this->M_data->jumlah_exist($tahun);
 			$data['jml_up'] = $this->M_data->jumlah_up($tahun);
-			$data['jml_down'] = $this->M_data->jumlah_down($tahun);  
+			$data['jml_down'] = $this->M_data->jumlah_down($tahun); 
+			$data['h_pie'] = $this->M_data->grafik_donut($tahun);
 			$data['search'] = $tahun;
 			$this->load->view('v_hal_utama_manager',$data);
 		}
@@ -41,6 +42,11 @@ class Admin extends CI_Controller{
     	$where = array('no' => $no);
     	$this->M_data->hapus_data($where,'t_data_utama');
     	redirect('Admin/data_tabel');
+    }
+    public function hapus_pekerjaan($no){
+    	$where = array('no' => $no);
+    	$this->M_data->hapus_data($where,'t_data_utama');
+    	redirect('Admin/monitoring_kerja');
     }
     public function hapus_data_department($id_department){
     	$where = array('id_department' => $id_department);
@@ -59,6 +65,24 @@ class Admin extends CI_Controller{
 			$data['nama_staff'] = $this->M_data->tampil_nama_staff()->result();
 			$data['nama_dept'] = $this->M_data->tampil_dept()->result();
 			$this->load->view('v_data_tabel',$data);
+		}
+		else{
+			redirect(base_url('Login'));
+		}
+    }
+    function monitoring_kerja(){
+    	if($this->session->userdata('status') == "manager"){
+			$data['t_data_utama'] = $this->M_data->tampil_data()->result();
+			$this->load->view('v_tabel_monitoring',$data);
+		}
+		else{
+			redirect(base_url('Login'));
+		}
+    }
+     function data_tabel_staff(){
+    	if($this->session->userdata('status') == "staff"){
+			$data['t_data_utama'] = $this->M_data->tampil_data_staff()->result();
+			$this->load->view('v_data_tabel_staff',$data);
 		}
 		else{
 			redirect(base_url('Login'));
@@ -88,6 +112,7 @@ class Admin extends CI_Controller{
 
     function tambah_data_utama(){
 		$nama_pic = $this->input->post('nama');
+		$kode_project = $this->input->post('kode_project');
 		$nama_project = $this->input->post('nama_project');
 		$instansi = $this->input->post('instansi');
 		$type = $this->input->post('type');
@@ -98,6 +123,7 @@ class Admin extends CI_Controller{
 
 		$data = array(
 			'nama_pic' => $nama_pic,
+			'kode_project' => $kode_project,
 			'nama_project' => $nama_project,
 			'instansi' => $instansi,
 			'type' => $type,
@@ -161,6 +187,18 @@ class Admin extends CI_Controller{
 	$this->load->view('v_edit_data_utama',$data);
 	}
 
+	function edit_pekerjaan($no){
+	$where = array('no' => $no);
+	$data['t_data_utama'] = $this->M_data->edit_data($where,'t_data_utama')->result();
+	$this->load->view('v_edit_pekerjaan',$data);
+	}
+
+	function edit_info_staff($no){
+	$where = array('no' => $no);
+	$data['t_data_utama'] = $this->M_data->edit_data($where,'t_data_utama')->result();
+	$this->load->view('v_edit_info_staff',$data);
+	}
+
 	function edit_staff($id_user){
 	$where = array('id_user' => $id_user);
 	$data['t_data_staff'] = $this->M_data->edit_data($where,'t_data_user')->result();
@@ -175,6 +213,7 @@ class Admin extends CI_Controller{
 
 	function update(){
 	$no = $this->input->post('no');
+	$kode_project = $this->input->post('kode_project');
 	$nama = $this->input->post('nama_pic');
 	$nama_project = $this->input->post('nama_project');
 	$instansi = $this->input->post('instansi');
@@ -186,6 +225,7 @@ class Admin extends CI_Controller{
 
 	$data = array(
 		'no' => $no,
+		'kode_project' => $kode_project,
 		'nama_pic' => $nama,
 		'nama_project' => $nama_project,
 		'instansi' => $instansi,
@@ -202,6 +242,66 @@ class Admin extends CI_Controller{
  
 	$this->M_data->update_data($where,$data,'t_data_utama');
 	redirect('Admin/data_tabel');
+	}
+
+	function update_pekerjaan(){
+	$no = $this->input->post('no');
+	$kode_project = $this->input->post('kode_project');
+	$nama_pic = $this->input->post('nama_pic');
+	$nama_project = $this->input->post('nama_project');
+	$instansi = $this->input->post('instansi');
+	$status = $this->input->post('status');
+	$no_spk = $this->input->post('no_spk');
+	$tgl_spk = $this->input->post('tgl_spk');
+	$info = $this->input->post('info');
+
+	$data = array(
+		'no' => $no,
+		'kode_project' => $kode_project,
+		'nama_pic' => $nama_pic,
+		'nama_project' => $nama_project,
+		'instansi' => $instansi,
+		'status' => $status,
+		'no_spk' => $no_spk,
+		'tgl_spk' => $tgl_spk,
+		'info' => $info,
+	);
+ 
+	$where = array(
+		'no' => $no
+	);
+ 
+	$this->M_data->update_data($where,$data,'t_data_utama');
+	redirect('Admin/monitoring_kerja');
+	}
+
+	function update_info_staff(){
+	$no = $this->input->post('no');
+	$nama_project = $this->input->post('nama_project');
+	$instansi = $this->input->post('instansi');
+	$info = $this->input->post('info');
+	$tanggal = $this->input->post('tanggal');
+	$status = $this->input->post('status');
+	$no_spk = $this->input->post('no_spk');
+	$tgl_spk = $this->input->post('tgl_spk');
+
+	$data = array(
+		'no' => $no,
+		'nama_project' => $nama_project,
+		'instansi' => $instansi,
+		'info' => $info,
+		'tanggal' => $tanggal,
+		'status' => $status,
+		'no_spk' => $no_spk,
+		'tgl_spk' => $tgl_spk,
+	);
+ 
+	$where = array(
+		'no' => $no
+	);
+ 
+	$this->M_data->update_data($where,$data,'t_data_utama');
+	redirect('Admin/data_tabel_staff');
 	}
 	
 	function update_staff(){
@@ -266,8 +366,8 @@ class Admin extends CI_Controller{
         echo json_encode($asd);   
 	}
 
-	function grafik_d(){
-			$hasil_d = $this->M_data->grafik_donut($tahun);
+	public function grafik_d(){
+			$hasil_d = $this->M_data->grafik_donut();
 		    $responce->cols[] = array( 
 		        "id" => "", 
 		        "label" => "Topping", 

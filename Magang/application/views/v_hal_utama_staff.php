@@ -56,7 +56,7 @@
             <span class="app-menu__label">Dashboard</span>
           </a>
         </li>
-       <!--  <li class="treeview">
+        <li class="treeview">
           <a class="app-menu__item" href="" data-toggle="treeview">
             <i class="app-menu__icon fa fa-table"></i>
             <span class="app-menu__label">Data</span>
@@ -64,11 +64,13 @@
           </a>
           <ul class="treeview-menu">
             <li>
-              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel')?>">
-                <i class="icon fab fa-uikit"></i>Staff</a>
+              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel_staff')?>">
+              <i class="icon fab fa-uikit"></i>
+              Project Monitoring
+              </a>
             </li>
           </ul>
-        </li> -->
+        </li>
       </ul>
     </aside>
 
@@ -81,6 +83,23 @@
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
           <li class="breadcrumb-item"><a href="staff">Dashboard</a></li>
         </ul>
+      </div>
+
+      <div>
+          <form method="post" action="<?php echo base_url().'Admin/staff';?>">
+            <select name="tahun" style="width: 100px; height: 25px;">
+                    <option value="<?php echo $search ?>"selected><?php echo $search ?></option>
+                <?php  
+                $thn_skr = date('Y');
+                for ($x = $thn_skr; $x >= 2010; $x--) {
+                ?>
+                    <option value="<?php echo $x ?>"><?php echo $x ?></option>
+                <?php
+                }
+                ?>
+            </select>
+            <button type="submit" style="height: 25px;">Tahun</button>
+          </form>
       </div>
 
       <div id="kiri">

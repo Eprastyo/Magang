@@ -36,8 +36,6 @@
             <i class="fas fa-user fa-lg"></i>
           </a>
           <ul class="dropdown-menu settings-menu dropdown-menu-right">
-            <!-- <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
-            <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li> -->
             <li><a class="dropdown-item" href="<?php echo base_url('Login/logout') ?>"><i class="fas fa-sign-out-alt fa-lg"></i> Logout</a></li>
           </ul>
         </li>
@@ -72,6 +70,10 @@
                 <i class="icon fab fa-uikit"></i>Utama</a>
             </li>
             <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/monitoring_kerja')?>">
+                <i class="icon fab fa-uikit"></i>Project Monitoring</a>
+            </li>
+            <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
                 <i class="icon fab fa-uikit"></i>Department</a>
             </li>
@@ -95,7 +97,7 @@
       <div class="row">
         <div class="card-body">
         <?php foreach($t_data_utama as $u){ ?>
-        <form action="<?php echo base_url(). 'Admin/update'; ?>" method="post">
+        <form action="<?php echo base_url(). 'Admin/update_pekerjaan'; ?>" method="post">
           <div class="card-mb">
               <div class="form-group">
                 <div class="col-sm-5">
@@ -127,58 +129,39 @@
                   <input type="text" name="instansi" class="form-control" value="<?php echo $u->instansi ?>" >
                 </div>
               </div>
-               <div class="form-group">
+              <div class="form-group">
                 <div class="container">
                   <div class="row">
-                    <div class="col-sm-5">
-                      <label for="usr">Type</label>
-                       <select class="form-control" name="type">
+                    <div class="col-sm-3">
+                      <label for="usr">Status Pekerjaan</label>
+                       <select class="form-control" name="status">
                         <?php 
-                            echo '<option value="'.$u->type.'" selected>'.$u->type.'</option>';
+                            echo '<option value="'.$u->status.'" selected>'.$u->status.'</option>';
                         ?>
-                         <option value="New">New</option>
-                         <option value="Existing">Existing</option>
-                         <option value="Upgrade">Upgrade</option>
-                         <option value="Downgrade">Downgrade</option>
+                         <option value="Closed">Closed</option>
+                         <option value="Development">Development</option>
+                         <option value="Failed">Failed</option>
                        </select>
                     </div>
                   </div>
                </div>
               </div>
               <div class="form-group">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-sm-5">
-                      <label for="usr">Divisi</label>
-                        <select class="form-control" name="divisi">
-                          <?php 
-                          echo '<option value="'.$u->divisi.'" selected>'.$u->divisi.'</option>';
-                          foreach($nama_dept as $row)
-                          { 
-                            echo '<option value="'.$row->nama_department.'">'.$row->nama_department.'</option>'; 
-                          }
-                          ?>
-                       </select>
-                    </div>
-                  </div>
-               </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Estimasi Pendapatan</label>
-                  <input type="number" name="est_pendapatan" class="form-control" value="<?php echo $u->esti_pendapatan ?>" >
+                <div class="col-sm-10">
+                  <label for="usr">No SPK</label>
+                  <input type="number" name="no_spk" class="form-control" value="<?php echo $u->no_spk ?>" >
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Real Pendapatan</label>
-                  <input type="number" name="real_pendapatan" class="form-control" value="<?php echo $u->real_pendapatan ?>" >
+                <div class="col-sm-3">
+                  <label for="usr">Tanggal SPK</label>
+                  <input type="date" name="tgl_spk" class="form-control" value="<?php echo $u->tgl_spk ?>" >
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Tanggal</label>
-                  <input type="date" name="tanggal" value="<?php echo $u->tanggal ?>"  >
+                <div class="col-sm-10">
+                <label for="comment">Informasi Pekerjaan</label>
+                <textarea class="form-control" rows="5" name="info"><?php echo $u->info?></textarea>
                 </div>
               </div>
               <div class="form-group">

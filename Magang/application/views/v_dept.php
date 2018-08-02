@@ -72,6 +72,10 @@
                 <i class="icon fab fa-uikit"></i>Utama</a>
             </li>
             <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/monitoring_kerja')?>">
+                <i class="icon fab fa-uikit"></i>Project Monitoring</a>
+            </li>
+            <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
                 <i class="icon fab fa-uikit"></i>Department</a>
             </li>

@@ -2,10 +2,8 @@
   <head>
     <?php
     function rupiah($angka){
-      
       $hasil_rupiah = "" . number_format($angka,2,',','.');
       return $hasil_rupiah;
-     
     }
     ?>
     <title>Magang</title>
@@ -95,90 +93,59 @@
       <div class="row">
         <div class="card-body">
         <?php foreach($t_data_utama as $u){ ?>
-        <form action="<?php echo base_url(). 'Admin/update'; ?>" method="post">
+        <form action="<?php echo base_url(). 'Admin/update_info_staff'; ?>" method="post">
           <div class="card-mb">
               <div class="form-group">
-                <div class="col-sm-5">
+                <div class="col-sm-2">
                   <label for="usr"></label>
                   <input type="hidden" name="no" value="<?php echo $u->no ?>" class="form-control" readonly>
-                </div>
               </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Kode Project</label>
-                  <input type="text" name="kode_project" value="<?php echo $u->kode_project ?>" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Nama PIC</label>
-                  <input type="text" name="nama_pic" value="<?php echo $u->nama_pic ?>" class="form-control" readonly>
-                </div>
               </div>
               <div class="form-group">
                 <div class="col-sm-10">
                   <label for="usr">Nama Project</label>
-                  <input type="text" name="nama_project" class="form-control" value="<?php echo $u->nama_project ?>" >
+                  <input type="text" name="nama_project" class="form-control" value="<?php echo $u->nama_project ?>" readonly>
               </div>
                 </div>
               <div class="form-group">
                 <div class="col-sm-10">
                   <label for="usr">Instansi</label>
-                  <input type="text" name="instansi" class="form-control" value="<?php echo $u->instansi ?>" >
+                  <input type="text" name="instansi" class="form-control" value="<?php echo $u->instansi ?>"readonly>
                 </div>
               </div>
-               <div class="form-group">
+              <div class="form-group">
+                <div class="col-sm-3">
+                  <label for="usr">No SPK</label>
+                  <input type="number" name="no_spk" class="form-control" value="<?php echo $u->no_spk ?>">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-5">
+                  <label for="usr">Tanggal SPK</label>
+                  <input type="date" name="tgl_spk" value="<?php echo $u->tgl_spk ?>"  >
+                </div>
+              </div>
+              <div class="form-group">
                 <div class="container">
                   <div class="row">
-                    <div class="col-sm-5">
-                      <label for="usr">Type</label>
-                       <select class="form-control" name="type">
+                    <div class="col-sm-3">
+                      <label for="usr">Status Pekerjaan</label>
+                       <select class="form-control" name="status">
                         <?php 
-                            echo '<option value="'.$u->type.'" selected>'.$u->type.'</option>';
+                            echo '<option value="'.$u->status.'" selected>'.$u->status.'</option>';
                         ?>
-                         <option value="New">New</option>
-                         <option value="Existing">Existing</option>
-                         <option value="Upgrade">Upgrade</option>
-                         <option value="Downgrade">Downgrade</option>
+                         <option value="Closed">Closed</option>
+                         <option value="Development">Development</option>
+                         <option value="Failed">Failed</option>
                        </select>
                     </div>
                   </div>
                </div>
               </div>
               <div class="form-group">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-sm-5">
-                      <label for="usr">Divisi</label>
-                        <select class="form-control" name="divisi">
-                          <?php 
-                          echo '<option value="'.$u->divisi.'" selected>'.$u->divisi.'</option>';
-                          foreach($nama_dept as $row)
-                          { 
-                            echo '<option value="'.$row->nama_department.'">'.$row->nama_department.'</option>'; 
-                          }
-                          ?>
-                       </select>
-                    </div>
-                  </div>
-               </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Estimasi Pendapatan</label>
-                  <input type="number" name="est_pendapatan" class="form-control" value="<?php echo $u->esti_pendapatan ?>" >
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Real Pendapatan</label>
-                  <input type="number" name="real_pendapatan" class="form-control" value="<?php echo $u->real_pendapatan ?>" >
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Tanggal</label>
-                  <input type="date" name="tanggal" value="<?php echo $u->tanggal ?>"  >
+                <div class="col-sm-10">
+                <label for="comment">Informasi Pekerjaan</label>
+                <textarea class="form-control" rows="5" name="info"><?php echo $u->info?></textarea>
                 </div>
               </div>
               <div class="form-group">

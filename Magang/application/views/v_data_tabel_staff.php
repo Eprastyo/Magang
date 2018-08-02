@@ -55,7 +55,7 @@
 
       <ul class="app-menu">
         <li>
-          <a class="app-menu__item active" href="manager">
+          <a class="app-menu__item active" href="staff">
             <i class="app-menu__icon fas fa-tachometer-alt"></i>
             <span class="app-menu__label">Dashboard</span>
           </a>
@@ -68,16 +68,8 @@
           </a>
           <ul class="treeview-menu">
             <li>
-              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel')?>">
-                <i class="icon fab fa-uikit"></i>Utama</a>
-            </li>
-             <li>
-              <a class="treeview-item" href="<?php echo base_url('Admin/monitoring_kerja')?>">
+              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel_staff')?>">
                 <i class="icon fab fa-uikit"></i>Project Monitoring</a>
-            </li>
-            <li>
-              <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
-                <i class="icon fab fa-uikit"></i>Department</a>
             </li>
           </ul>
         </li>
@@ -88,31 +80,12 @@
     <main class="app-content">
       <div class="app-title">
         <div>
-          <h1><i class="app-menu__icon fa fa-table"></i>Data Staff</h1>
+          <h1><i class="app-menu__icon fa fa-table"></i>Data Utama Staff</h1>
         </div>
         <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="fa fa-table fa-lg"></i></li>
-          <li class="breadcrumb-item"><a href="data_tabel">Data Staff</a></li>
+          <li class="breadcrumb-item"><a href="data_tabel">Data Utama Staff</a></li>
         </ul>
-      </div>
-
-      <div style="width: 100%;" >
-        <div class="btn-group">
-          <form method="get" action="tambah_data">
-              <button class="btn btn-default" type="button" data-toggle="modal" data-target="#myModal" style="color: white;background-color: #03a9f4"><i class="icon far fa-calendar-plus"> </i>Tambah Data
-              </button>
-          </form>
-          
-          <form method="get" action="tambah_data_staff">
-              <button class="btn btn-default" type="button" data-toggle="modal" data-target="#tambah-staff" style="color: white;background-color: #03a9f4"><i class="icon fas fa-user-plus"> </i>Tambah Staff
-              </button>
-          </form>
-
-          <form method="get" action="daftar_staff">
-              <button class="btn btn-default" type="submit" style="color: white;background-color: #03a9f4"><i class="icon fas fa-user-plus"> </i>Lihat Staff
-              </button>
-          </form>
-        </div>
       </div>
 
         <div id="myModal" class="modal fade" role="dialog">
@@ -196,13 +169,13 @@
                       <div class="form-group">
                         <div class="col-sm-10">
                           <label for="usr">Estimasi Pendapatan</label>
-                          <input type="number" name="est_pendapatan" class="form-control">
+                          <input type="text" name="est_pendapatan" class="form-control">
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="col-sm-10">
                           <label for="usr">Real Pendapatan</label>
-                          <input type="number" name="real_pendapatan" class="form-control">
+                          <input type="text" name="real_pendapatan" class="form-control">
                         </div>
                       </div>
                       <div class="form-group">
@@ -298,12 +271,9 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Kode Project</th>
                   <th>PIC</th>
                   <th>Nama Project</th>
                   <th>Instansi</th>
-                  <th>Type</th>
-                  <th>Divisi</th>
                   <th>Pagu</th>
                   <th>Pendapatan (SPK)</th>
                   <th>Tanggal</th>
@@ -311,7 +281,7 @@
                   <th>Info Pekerjaan</th>
                   <th>No SPK</th>
                   <th>Tanggal SPK</th>
-                  <th>Aksi</th>
+                  <th>Update Project</th>
                 </tr>
               </thead>
 
@@ -322,12 +292,9 @@
               ?>
               <tr>
                 <td><?php echo $no_urut++ ?></td>
-                <td><?php echo $hasil->kode_project ?></td>
                 <td><?php echo $hasil->nama_pic ?></td>
                 <td><?php echo $hasil->nama_project ?></td>
                 <td><?php echo $hasil->instansi ?></td>
-                <td><?php echo $hasil->type ?></td>
-                <td><?php echo $hasil->divisi ?></td>
                 <td><?php echo rupiah($hasil->esti_pendapatan) ?></td>
                 <td><?php echo rupiah($hasil->real_pendapatan) ?></td>
                 <td><?php echo $hasil->tanggal ?></td>
@@ -337,8 +304,9 @@
                 <td><?php echo $hasil->tgl_spk ?></td>
                 <td>
                   <center>
-                     <a href="<?php echo base_url('Admin/hapus_data_staff/'.$hasil->no);?>"><span class="fa fa-trash fa-lg" style="color: #e91e63"></span></a>
-                     <a href="<?php echo base_url('Admin/edit/'.$hasil->no);?>"><span class="fa fa-edit fa-lg" style="color: #03a9f4"></span></a>
+                     <a href="<?php echo base_url('Admin/edit_info_staff/'.$hasil->no);?>">
+                      <span class="fa fa-edit fa-lg" style="color: #03a9f4"></span>
+                     </a>
                   </center>
                 </td>
               </tr>
