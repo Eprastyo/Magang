@@ -117,10 +117,10 @@
           </form>
       </div>
 
-      <div id="kiri">
-        <div style="width: 500px;">
-            <div class="widget-small primary coloured-icon"><i class="icon far fa-building fa-3x"></i>
-              <div class="info">
+      <div class="row">
+        <div class="col-md-6 col-lg-6">
+          <div class="widget-small primary coloured-icon"><i class="icon far fa-building fa-3x"></i>
+            <div class="info">
                 <h4>Nilai Total Estimasi Pendapatan</h4>
                 <?php
                   foreach ($hasil_estimasi->result() as $row) {
@@ -129,40 +129,136 @@
                   <?php
                   }
                 ?>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-6">
+            <div class="widget-small primary coloured-icon"><i class="icon fas fa-user-check fa-3x"></i>
+              <div class="info">
+                <h4>Nilai Total Pendapatan(SPK)</h4>
+                <?php
+                  foreach ($hasil_real->result() as $row) {
+                    ?>
+                    <p><b><?php echo rupiah($row->tot_real); ?></b></p>
+                  <?php
+                  }
+                ?>
               </div>
             </div>
         </div>
-
-        <div id="piechart" style="width:500px; height: 350px;">
-          <?php
-              $data_string = '';    
-              foreach($data as $key=>$data){
-              $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Estimasi Pendapatan";
-              $warna = ($key == "tot_real")?"#76A7FA":"#e5e4e2";
-              $data_string .= "['$string'".",". $data ."],";
-              }
-          ?>
-          <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-          <script type="text/javascript">
-            google.charts.load('current', {'packages':['corechart']});
-            google.charts.setOnLoadCallback(drawChart);
-            function drawChart() {
-              var data = google.visualization.arrayToDataTable([
-                  ['Task', 'Hours per Day'],
+      </div>
+      
+      <div class="row">
+         <div class="col-md-6 col-lg-6">
+            <div class="info">
+                <div id="piechart" style="height: 40%;">
                   <?php
-                  echo $data_string;
+                      $data_string = '';    
+                      foreach($data as $key=>$data){
+                      $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Estimasi Pendapatan";
+                      $warna = ($key == "tot_real")?"#76A7FA":"#e5e4e2";
+                      $data_string .= "['$string'".",". $data ."],";
+                      }
                   ?>
-              ]);
-              var options = {
-                colors: ['#ff1744', '#00e676'],
-              };
-              var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-              chart.draw(data,options);
-            }
-          </script>
-        </div>
+                  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                  <script type="text/javascript">
+                    google.charts.load('current', {'packages':['corechart']});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                      var data = google.visualization.arrayToDataTable([
+                          ['Task', 'Hours per Day'],
+                          <?php
+                          echo $data_string;
+                          ?>
+                      ]);
+                      var options = {
+                        colors: ['#ff1744', '#00e676'],
+                      };
+                      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                      chart.draw(data,options);
+                    }
+                  </script>
+                </div>
+            </div>
+          </div>
 
-        <div id="asd" style="width:500px; height: 300px;margin-top:30px;"></div>
+           <div class="col-md-6 col-lg-6">
+            <div class="info">
+                <canvas id="myChart" style="background-color: white;">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+                  <?php
+                      foreach($hasil as $data){
+                          $nama_pic[] = $data->nama_pic;
+                          $tot_real[] = $data->tot_real;
+                      }
+                  ?>
+                <script>
+                var ctx = document.getElementById("myChart").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: <?php echo json_encode ($nama_pic);?>,
+                        datasets: [{
+                            data: <?php echo json_encode ($tot_real);?>,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                              ticks: {
+                              beginAtZero:true,
+                              userCallback: function(value, index, values) {
+                                  value = value.toString();
+                                  value = value.split(/(?=(?:...)*$)/);
+                                  value = value.join('.');
+                                  return value;
+                              }
+                            }
+                        }]
+
+                      },
+                      title: {
+                        display: true,
+                        position: 'left',
+                        text: 'Nilai SPK'
+                      },
+                      legend: {
+                        labels: {
+                          filter: function(legendItem, chartData) {
+                          }
+                          }
+                      }
+                    }
+                });
+                </script>
+              </canvas>
+            </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-6">
+              <div class="info">
+                 <div id="asd" style="height: 40%;"></div>
+              </div>
+        </div>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <?php  
               $pie = "";
@@ -190,173 +286,77 @@
             chart.draw(data, options);
           }
         </script>
+        <div class="col-md-6 col-lg-6">
+                  <div class="row" style="margin-left: 2%;margin-top: 2%;">
+                    <div>
+                        <div class="widget-small primary coloured-icon" style="width: 250px;">
+                          <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
+                          <div class="info" style="width: 200px;height: 30px;">
+                            <h6>Client Baru</h6>
+                            <?php
+                              foreach ($jml_new->result() as $row) {
+                                ?>
+                                <p><b><?php echo $row->tot_new ?></b></p>
+                              <?php
+                              }
+                            ?>
+                          </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="widget-small primary coloured-icon" style="width: 250px;">
+                          <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
+                          <div class="info" style="width: 200px;height: 30px;">
+                            <h6>Client Existing</h6>
+                            <?php
+                              foreach ($jml_exist->result() as $row) {
+                                ?>
+                                <p><b><?php echo $row->tot_exist ?></b></p>
+                              <?php
+                              }
+                            ?>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
 
-        <!-- <div id="donutchart" style="width:500px; height: 300px;margin-top:30px;">
-         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> 
-         <script type="text/javascript">
-          google.charts.load('current', {'packages':['corechart']}); 
-          google.charts.setOnLoadCallback(drawChart); 
-
-          function drawChart() { 
-            var jsonData = $.ajax({ 
-                url: "<?php echo base_url('Admin/grafik_d')?>", 
-                dataType: "json", 
-                async: false 
-                }).responseText; 
-            var options = {
-                pieHole: 0.4,
-              };
-            var data = new google.visualization.DataTable(jsonData);
-            var chart = new google.visualization.PieChart(document.getElementById('donutchart')); 
-            chart.draw(data, options); 
-          } 
-         </script>
-        </div> -->
-      </div>
-
-      <div id="kanan">
-        <div style="width: 530px;">
-            <div class="widget-small primary coloured-icon"><i class="icon fas fa-user-check fa-3x"></i>
-              <div class="info">
-                <h4>Nilai Total Pendapatan(SPK)</h4>
-                <?php
-                  foreach ($hasil_real->result() as $row) {
-                    ?>
-                    <p><b><?php echo rupiah($row->tot_real); ?></b></p>
-                  <?php
-                  }
-                ?>
+                <div class="row" style="margin-left: 2%;margin-top: 2%;">
+                    <div>
+                        <div class="widget-small primary coloured-icon" style="width: 250px;">
+                          <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
+                          <div class="info" style="width: 200px;height: 30px;">
+                            <h6>Client Upgrade</h6>
+                            <?php
+                              foreach ($jml_up->result() as $row) {
+                                ?>
+                                <p><b><?php echo $row->tot_up ?></b></p>
+                              <?php
+                              }
+                            ?>
+                          </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="widget-small primary coloured-icon" style="width: 250px;">
+                          <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
+                          <div class="info" style="width: 200px;height: 30px;">
+                            <h6>Client Downgrade</h6>
+                            <?php
+                              foreach ($jml_down->result() as $row) {
+                                ?>
+                                <p><b><?php echo $row->tot_down ?></b></p>
+                              <?php
+                              }
+                            ?>
+                          </div>
+                      </div>
+                    </div>
+                </div>
               </div>
             </div>
+          </div>
         </div>
-
-        <canvas id="myChart" style="width:80%; height: 560px;background-color: white;">
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-            <?php
-                foreach($hasil as $data){
-                    $nama_pic[] = $data->nama_pic;
-                    $tot_real[] = $data->tot_real;
-                }
-            ?>
-          <script>
-          var ctx = document.getElementById("myChart").getContext('2d');
-          var myChart = new Chart(ctx, {
-              type: 'bar',
-              data: {
-                  labels: <?php echo json_encode ($nama_pic);?>,
-                  datasets: [{
-                      data: <?php echo json_encode ($tot_real);?>,
-                      backgroundColor: [
-                          'rgba(255, 99, 132, 0.2)',
-                          'rgba(54, 162, 235, 0.2)',
-                          'rgba(255, 206, 86, 0.2)',
-                          'rgba(75, 192, 192, 0.2)',
-                          'rgba(153, 102, 255, 0.2)',
-                          'rgba(255, 159, 64, 0.2)'
-                      ],
-                      borderColor: [
-                          'rgba(255,99,132,1)',
-                          'rgba(54, 162, 235, 1)',
-                          'rgba(255, 206, 86, 1)',
-                          'rgba(75, 192, 192, 1)',
-                          'rgba(153, 102, 255, 1)',
-                          'rgba(255, 159, 64, 1)'
-                      ],
-                      borderWidth: 2
-                  }]
-              },
-              options: {
-                  scales: {
-                      yAxes: [{
-                        ticks: {
-                        beginAtZero:true,
-                        userCallback: function(value, index, values) {
-                            value = value.toString();
-                            value = value.split(/(?=(?:...)*$)/);
-                            value = value.join('.');
-                            return value;
-                        }
-                      }
-                  }]
-
-                },
-                title: {
-                  display: true,
-                  position: 'left',
-                  text: 'Nilai SPK'
-                },
-                legend: {
-                  labels: {
-                    filter: function(legendItem, chartData) {
-                    }
-                    }
-                }
-              }
-          });
-          </script>
-        </canvas>
-        <div style="margin-top:30px;height: 50px;">
-            <div class="widget-small primary coloured-icon" style="width: 250px;">
-              <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
-              <div class="info" style="width: 200px;height: 30px;">
-                <h6>Client Baru</h6>
-                <?php
-                  foreach ($jml_new->result() as $row) {
-                    ?>
-                    <p><b><?php echo $row->tot_new ?></b></p>
-                  <?php
-                  }
-                ?>
-              </div>
-            </div>
-        </div>
-        <div style="margin-top:20px;height: 50px;">
-            <div class="widget-small primary coloured-icon" style="width: 250px;">
-              <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
-              <div class="info" style="width: 200px;height: 30px;">
-                <h6>Client Existing</h6>
-                <?php
-                  foreach ($jml_exist->result() as $row) {
-                    ?>
-                    <p><b><?php echo $row->tot_exist ?></b></p>
-                  <?php
-                  }
-                ?>
-              </div>
-            </div>
-        </div>
-        <div style="margin-top:20px;height: 50px;">
-            <div class="widget-small primary coloured-icon" style="width: 250px;">
-              <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
-              <div class="info" style="width: 200px;height: 30px;">
-                <h6>Client Upgrade</h6>
-                <?php
-                  foreach ($jml_up->result() as $row) {
-                    ?>
-                    <p><b><?php echo $row->tot_up ?></b></p>
-                  <?php
-                  }
-                ?>
-              </div>
-            </div>
-        </div>
-        <div style="margin-top:20px;height: 50px;">
-            <div class="widget-small primary coloured-icon" style="width: 250px;">
-              <i class="icon fas fa-check fa-1x" style="height: 60px;"></i>
-              <div class="info" style="width: 200px;height: 30px;">
-                <h6>Client Downgrade</h6>
-                <?php
-                  foreach ($jml_down->result() as $row) {
-                    ?>
-                    <p><b><?php echo $row->tot_down ?></b></p>
-                  <?php
-                  }
-                ?>
-              </div>
-            </div>
-        </div>
-      </div>      
+      </div>   
     </main>
     <script src="<?php echo base_url('assets/docs/js/jquery-3.2.1.min.js')?>"></script>
     <script src="<?php echo base_url('assets/docs/js/popper.min.js')?>"></script>
