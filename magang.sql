@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 03, 2018 at 03:49 AM
+-- Generation Time: Aug 06, 2018 at 08:47 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.4
 
@@ -66,17 +66,20 @@ CREATE TABLE `t_data_utama` (
   `status` varchar(20) NOT NULL,
   `info` varchar(300) NOT NULL,
   `no_spk` varchar(100) NOT NULL,
-  `tgl_spk` date NOT NULL
+  `tgl_spk` date NOT NULL,
+  `progres` int(10) NOT NULL,
+  `tanggal_update` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `t_data_utama`
 --
 
-INSERT INTO `t_data_utama` (`no`, `kode_project`, `nama_pic`, `nama_project`, `instansi`, `type`, `divisi`, `esti_pendapatan`, `real_pendapatan`, `tanggal`, `status`, `info`, `no_spk`, `tgl_spk`) VALUES
-(36, '123asd', 'Dodi', 'aassd', 'dsa', 'New', 'Software Development ', 987283824, 734892374, '2018-08-02', 'Development', 'Oke bos', '123', '2018-08-02'),
-(37, '826846823jsdgjsj', 'Ardi', 'aksdhasldkas', 'skdhkaskd', 'Upgrade', 'ISP (Internet Service Provider)', 1000000000, 2147483647, '0000-00-00', 'Development', 'Proses', '2268463287', '2018-08-02'),
-(38, 'yuqwetqwue273', 'Ardi', 'hsdkhaskjdh', 'kjhsdkaks', 'Existing', 'Software Development ', 72848726, 78238725, '0000-00-00', 'Development', 'jaksdaskdgaskjd', '47476', '2018-08-02');
+INSERT INTO `t_data_utama` (`no`, `kode_project`, `nama_pic`, `nama_project`, `instansi`, `type`, `divisi`, `esti_pendapatan`, `real_pendapatan`, `tanggal`, `status`, `info`, `no_spk`, `tgl_spk`, `progres`, `tanggal_update`) VALUES
+(36, '123asd', 'Dodi', 'aassd', 'dsa', 'New', 'Software Development ', 987283824, 734892374, '2018-08-02', 'Development', 'Oke bos', '123', '2018-08-02', 0, '0000-00-00'),
+(37, '826846823jsdgjsj', 'Ardi', 'Tambah bandwith', 'ASD', 'Upgrade', 'ISP (Internet Service Provider)', 1000000000, 2147483647, '2018-08-03', 'Development', 'Proses', '2268463287', '2018-08-02', 0, '0000-00-00'),
+(38, 'yuqwetqwue273', 'Ardi', 'Software Development', 'DSA', 'New', 'Software Development ', 200000000, 150000000, '2017-08-02', 'Development', 'jaksdaskdgaskjd', '47476', '2018-08-02', 0, '0000-00-00'),
+(39, 'ASD001', 'Dodi', 'Internet', 'FGH', 'New', 'ISP (Internet Service Provider)', 300000000, 275000000, '2017-04-05', '', '', '', '0000-00-00', 0, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -98,6 +101,29 @@ INSERT INTO `t_department` (`id_department`, `nama_department`) VALUES
 (3, 'ISP (Internet Service Provider)'),
 (8, 'Infrastruktur'),
 (9, 'BDC');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_detail`
+--
+
+CREATE TABLE `t_detail` (
+  `id_detail` int(10) NOT NULL,
+  `nama_project` varchar(100) NOT NULL,
+  `detail` varchar(20) NOT NULL,
+  `pic` varchar(20) NOT NULL,
+  `instansi` varchar(20) NOT NULL,
+  `progres` int(10) NOT NULL,
+  `tgl_update` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `t_detail`
+--
+
+INSERT INTO `t_detail` (`id_detail`, `nama_project`, `detail`, `pic`, `instansi`, `progres`, `tgl_update`) VALUES
+(3, 'Tambah bandwith', 'Proposal', 'Ardi', 'ASD', 50, '2018-08-06');
 
 -- --------------------------------------------------------
 
@@ -163,6 +189,12 @@ ALTER TABLE `t_department`
   ADD PRIMARY KEY (`id_department`);
 
 --
+-- Indexes for table `t_detail`
+--
+ALTER TABLE `t_detail`
+  ADD PRIMARY KEY (`id_detail`);
+
+--
 -- Indexes for table `t_divisi`
 --
 ALTER TABLE `t_divisi`
@@ -188,13 +220,19 @@ ALTER TABLE `t_data_user`
 -- AUTO_INCREMENT for table `t_data_utama`
 --
 ALTER TABLE `t_data_utama`
-  MODIFY `no` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `no` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `t_department`
 --
 ALTER TABLE `t_department`
   MODIFY `id_department` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `t_detail`
+--
+ALTER TABLE `t_detail`
+  MODIFY `id_detail` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `t_divisi`
