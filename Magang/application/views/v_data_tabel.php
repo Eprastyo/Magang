@@ -2,10 +2,10 @@
   <head>
     <?php
     function rupiah($angka){
-      
+
       $hasil_rupiah = "" . number_format($angka,2,',','.');
       return $hasil_rupiah;
-     
+
     }
     ?>
     <title>Magang</title>
@@ -18,7 +18,6 @@
     <!-- Font-icon css-->
     <link rel="stylesheet" href="<?php echo base_url ('assets/docs/font-awesome/css/all.css')?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/datatables/datatables.min.css')?>">
-
   </head>
   <body class="app sidebar-mini rtl">
     <!-- Navbar-->
@@ -102,7 +101,7 @@
               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#myModal" style="color: white;background-color: #03a9f4"><i class="icon far fa-calendar-plus"> </i>Tambah Data
               </button>
           </form>
-          
+
           <form method="get" action="tambah_data_staff">
               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#tambah-staff" style="color: white;background-color: #03a9f4"><i class="icon fas fa-user-plus"> </i>Tambah Staff
               </button>
@@ -126,15 +125,15 @@
               </div>
               <!-- body modal -->
               <div class="modal-body">
-                 <form action="<?php echo base_url(). 'Admin/tambah_data_utama'; ?>" method="post"> 
+                 <form action="<?php echo base_url(). 'Admin/tambah_data_utama'; ?>" method="post">
                     <div class="card-mb">
                       <div class="form-group">
                         <div class="col-sm-10">
                           <label for="usr">Nama PIC</label>
                           <select class="form-control" name="nama">
-                          <?php 
+                          <?php
                           foreach($nama_staff as $row)
-                          { 
+                          {
                             echo '<option value="'.$row->nama.'">'.$row->nama.'</option>';
                           }
                           ?>
@@ -174,16 +173,16 @@
                           </div>
                         </div>
                       </div>
-          
+
                       <div class="form-group">
                         <div class="container">
                           <div class="row">
                             <div class="col-sm-5">
                               <label for="usr">Divisi</label>
                               <select class="form-control" name="divisi">
-                                <?php 
+                                <?php
                                 foreach($nama_dept as $row)
-                                { 
+                                {
                                   echo '<option value="'.$row->nama_department.'">'.$row->nama_department.'</option>';
                                 }
                                 ?>
@@ -240,7 +239,7 @@
               </div>
               <!-- body modal -->
               <div class="modal-body">
-                 <form action="<?php echo base_url(). 'Admin/tambah_data_staff'; ?>" method="post"> 
+                 <form action="<?php echo base_url(). 'Admin/tambah_data_staff'; ?>" method="post">
                     <div class="card-mb">
                       <div class="form-group">
                         <div class="col-sm-10">
@@ -272,7 +271,7 @@
                             <div class="btn-group">
                                   <button class="btn btn-default" type="submit" name="upload" style="color: white;background-color: #03a9f4">Simpan
                                   </button>
-                              
+
                                   <button class="btn btn-default" type="submit" data-dismiss="modal" style="color: white;background-color: #e91e63">Cancel
                                   </button>
                             </div>
@@ -342,14 +341,14 @@
                   </center>
                 </td>
               </tr>
-              <?php 
-              } 
+              <?php
+              }
               ?>
               </tbody>
             </table>
           </div>
         </div>
-      </div> 
+      </div>
 
     </main>
     <!-- Essential javascripts for application to work-->
@@ -379,7 +378,3 @@
     </style>
   </body>
 </html>
-
-
-
-

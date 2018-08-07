@@ -278,7 +278,7 @@
             ]);
 
             var options = {
-              title: ''
+              pieHole: 0.5
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('asd'));

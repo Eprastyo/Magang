@@ -2,10 +2,10 @@
   <head>
     <?php
     function rupiah($angka){
-      
+
       $hasil_rupiah = "" . number_format($angka,2,',','.');
       return $hasil_rupiah;
-     
+
     }
     ?>
     <title>Magang</title>
@@ -74,7 +74,14 @@
           </ul>
         </li>
       </ul>
-
+      <ul class="treeview-menu">
+        <li>
+          <a class="treeview-item" href="<?php echo base_url('Admin/daily_report')?>">
+          <i class="icon fab fa-uikit"></i>
+          Daily Report
+          </a>
+        </li>
+      </ul>
     </aside>
 
     <main class="app-content">
@@ -99,15 +106,15 @@
               </div>
               <!-- body modal -->
               <div class="modal-body">
-                 <form action="<?php echo base_url(). 'Admin/tambah_data_utama'; ?>" method="post"> 
+                 <form action="<?php echo base_url(). 'Admin/tambah_data_utama'; ?>" method="post">
                     <div class="card-mb">
                       <div class="form-group">
                         <div class="col-sm-10">
                           <label for="usr">Nama PIC</label>
                           <select class="form-control" name="nama">
-                          <?php 
+                          <?php
                           foreach($nama_staff as $row)
-                          { 
+                          {
                             echo '<option value="'.$row->nama.'">'.$row->nama.'</option>';
                           }
                           ?>
@@ -147,16 +154,16 @@
                           </div>
                         </div>
                       </div>
-          
+
                       <div class="form-group">
                         <div class="container">
                           <div class="row">
                             <div class="col-sm-5">
                               <label for="usr">Divisi</label>
                               <select class="form-control" name="divisi">
-                                <?php 
+                                <?php
                                 foreach($nama_dept as $row)
-                                { 
+                                {
                                   echo '<option value="'.$row->nama_department.'">'.$row->nama_department.'</option>';
                                 }
                                 ?>
@@ -200,70 +207,6 @@
             </div>
           </div>
         </div>
-
-
-      <div id="tambah-staff" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-            <!-- konten modal-->
-            <div class="modal-content">
-              <!-- heading modal -->
-              <div class="modal-header">
-                <h4 class="modal-title">Tambah Data Staff</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
-              <!-- body modal -->
-              <div class="modal-body">
-                 <form action="<?php echo base_url(). 'Admin/tambah_data_staff'; ?>" method="post"> 
-                    <div class="card-mb">
-                      <div class="form-group">
-                        <div class="col-sm-10">
-                          <label for="usr">Nama</label>
-                          <input type="text" name="nama" class="form-control">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-10">
-                          <label for="usr">Password</label>
-                          <input type="password" name="password" class="form-control">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                       <div class="container">
-                          <div class="row">
-                            <div class="col-sm-5">
-                              <label for="usr">Level</label>
-                              <select class="form-control" name="level">
-                                <option value="staff">Staff</option>
-                                <option value="manager">Admin/Manager</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-5">
-                            <div class="btn-group">
-                                  <button class="btn btn-default" type="submit" name="upload" style="color: white;background-color: #03a9f4">Simpan
-                                  </button>
-                              
-                                  <button class="btn btn-default" type="submit" data-dismiss="modal" style="color: white;background-color: #e91e63">Cancel
-                                  </button>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              <!-- footer modal -->
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" style="color: white;background-color: #e91e63">Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
 
         <div class="card-body" style="background-color: #f5f6fa">
           <div class="table-responsive">
@@ -310,14 +253,14 @@
                   </center>
                 </td>
               </tr>
-              <?php 
-              } 
+              <?php
+              }
               ?>
               </tbody>
             </table>
           </div>
         </div>
-      </div> 
+      </div>
 
     </main>
     <!-- Essential javascripts for application to work-->
@@ -347,7 +290,3 @@
     </style>
   </body>
 </html>
-
-
-
-

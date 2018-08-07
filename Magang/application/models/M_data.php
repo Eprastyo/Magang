@@ -1,11 +1,16 @@
-<?php 
+<?php
 class M_data extends CI_Model{
 	function tampil_data(){
 		return $this->db->get('t_data_utama');
 	}
 	function tampil_data_staff(){
-		$nama = $this->session->userdata('nama'); 
-	    $sql = "SELECT * FROM t_data_utama where nama_pic='$nama'";
+		$nama = $this->session->userdata('nama');
+	  $sql = "SELECT * FROM t_data_utama where nama_pic='$nama'";
+		return $this->db->query($sql);
+	}
+	function tampil_data_report(){
+		$nama = $this->session->userdata('nama');
+		$sql = "SELECT * FROM t_data_utama where nama_pic='$nama'";
 		return $this->db->query($sql);
 	}
 	function tampil_nama_staff(){
@@ -15,7 +20,7 @@ class M_data extends CI_Model{
 		return $this->db->get('t_department');
 	}
 	function tampil_staff(){
-		return $this->db->get('t_data_user');	
+		return $this->db->get('t_data_user');
 	}
 	function hapus_data($where,$table){
 		$this->db->where($where);
@@ -24,7 +29,14 @@ class M_data extends CI_Model{
 	function input_data($data,$table){
 		return $this->db->insert($table,$data);
 	}
-	function edit_data($where,$table){		
+	function edit_data($where,$table){
+		return $this->db->get_where($table,$where);
+	}
+	function data_detail($where,$table){
+		return $this->db->get_where($table,$where);
+	}
+	function prog_detail($where,$table){
+		$nama = $this->session->userdata('nama');
 		return $this->db->get_where($table,$where);
 	}
 	function update_data($where,$data,$table){
@@ -60,21 +72,21 @@ class M_data extends CI_Model{
 	function jumlah_real($tahun){
 		$sql = "SELECT SUM(real_pendapatan) as tot_real from t_data_utama WHERE tanggal LIKE '%$tahun%'";
 		return $this->db->query($sql);
-	} 
+	}
 	function jumlah_estimasi_staff($tahun){
-		$nama = $this->session->userdata('nama'); 
+		$nama = $this->session->userdata('nama');
 		$sql = "SELECT SUM(esti_pendapatan) as tot_esti from t_data_utama WHERE tanggal LIKE '%$tahun%' && nama_pic='$nama'";
 		return $this->db->query($sql);
 	}
 	function jumlah_real_staff($tahun){
-		$nama = $this->session->userdata('nama'); 
+		$nama = $this->session->userdata('nama');
 		$sql = "SELECT SUM(real_pendapatan) as tot_real from t_data_utama WHERE tanggal LIKE '%$tahun%' && nama_pic='$nama'";
 		return $this->db->query($sql);
-	} 
+	}
 	function hasil_grafik(){
 		$sql = "SELECT SUM(esti_pendapatan) as tot_esti,SUM(real_pendapatan) as tot_real from t_data_utama";
 		return $this->db->query($sql)->result();
-	} 
+	}
 	function grafik($tahun){
 		$query = "SELECT nama_pic,SUM(real_pendapatan) AS tot_real,COUNT(real_pendapatan) AS baris_real FROM t_data_utama WHERE tanggal LIKE '%$tahun%' GROUP BY nama_pic ORDER BY tot_real";
         return $this->db->query($query)->result();
@@ -100,7 +112,7 @@ class M_data extends CI_Model{
 	}
 
 	function grafik_pie_staff($tahun){
-		$nama = $this->session->userdata('nama'); 
+		$nama = $this->session->userdata('nama');
 		$sql = "SELECT SUM(esti_pendapatan) as tot_esti,SUM(real_pendapatan) as tot_real from t_data_utama WHERE tanggal LIKE '%$tahun%' && nama_pic='$nama'";
         $query = $this->db->query($sql);
         if ($query->num_rows() > 0) {

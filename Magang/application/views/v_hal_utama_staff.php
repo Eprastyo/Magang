@@ -33,8 +33,6 @@
             <i class="fas fa-user fa-lg"></i>
           </a>
           <ul class="dropdown-menu settings-menu dropdown-menu-right">
-            <!-- <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-cog fa-lg"></i> Settings</a></li>
-            <li><a class="dropdown-item" href="page-user.html"><i class="fa fa-user fa-lg"></i> Profile</a></li> -->
             <li><a class="dropdown-item" href="<?php echo base_url('Login/logout') ?>"><i class="fas fa-sign-out-alt fa-lg"></i> Logout</a></li>
           </ul>
         </li>
@@ -70,6 +68,14 @@
               </a>
             </li>
           </ul>
+          <ul class="treeview-menu">
+            <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/daily_report')?>">
+              <i class="icon fab fa-uikit"></i>
+              Daily Report
+              </a>
+            </li>
+          </ul>
         </li>
       </ul>
     </aside>
@@ -89,7 +95,7 @@
           <form method="post" action="<?php echo base_url().'Admin/staff';?>">
             <select name="tahun" style="width: 100px; height: 25px;">
                     <option value="<?php echo $search ?>"selected><?php echo $search ?></option>
-                <?php  
+                <?php
                 $thn_skr = date('Y');
                 for ($x = $thn_skr; $x >= 2010; $x--) {
                 ?>
@@ -137,7 +143,7 @@
       <div id="kanan">
         <div id="piechart" style="width:500px; height: 300px;">
           <?php
-              $data_string = '';    
+              $data_string = '';
               foreach($data as $key=>$data){
               $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Estimasi Pendapatan";
               $warna = ($key == "tot_real")?"#76A7FA":"#e5e4e2";
@@ -192,4 +198,3 @@
     </style>
   </body>
 </html>
-
