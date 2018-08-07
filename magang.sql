@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2018 at 08:47 AM
+-- Generation Time: Aug 07, 2018 at 11:57 AM
 -- Server version: 10.1.31-MariaDB
 -- PHP Version: 7.2.4
 
@@ -77,8 +77,8 @@ CREATE TABLE `t_data_utama` (
 
 INSERT INTO `t_data_utama` (`no`, `kode_project`, `nama_pic`, `nama_project`, `instansi`, `type`, `divisi`, `esti_pendapatan`, `real_pendapatan`, `tanggal`, `status`, `info`, `no_spk`, `tgl_spk`, `progres`, `tanggal_update`) VALUES
 (36, '123asd', 'Dodi', 'aassd', 'dsa', 'New', 'Software Development ', 987283824, 734892374, '2018-08-02', 'Development', 'Oke bos', '123', '2018-08-02', 0, '0000-00-00'),
-(37, '826846823jsdgjsj', 'Ardi', 'Tambah bandwith', 'ASD', 'Upgrade', 'ISP (Internet Service Provider)', 1000000000, 2147483647, '2018-08-03', 'Development', 'Proses', '2268463287', '2018-08-02', 0, '0000-00-00'),
-(38, 'yuqwetqwue273', 'Ardi', 'Software Development', 'DSA', 'New', 'Software Development ', 200000000, 150000000, '2017-08-02', 'Development', 'jaksdaskdgaskjd', '47476', '2018-08-02', 0, '0000-00-00'),
+(37, '826846823jsdgjsj', 'Ardi', 'Tambah bandwith', 'ASD', 'Upgrade', 'ISP (Internet Service Provider)', 1000000000, 2147483647, '2018-08-03', 'Development', 'Proses', '2268463287', '2018-08-02', 60, '2018-08-07'),
+(38, 'yuqwetqwue273', 'Ardi', 'Software Development', 'DSA', 'New', 'Software Development ', 200000000, 150000000, '2017-08-02', 'Development', 'jaksdaskdgaskjd', '47476', '2018-08-02', 50, '2018-08-07'),
 (39, 'ASD001', 'Dodi', 'Internet', 'FGH', 'New', 'ISP (Internet Service Provider)', 300000000, 275000000, '2017-04-05', '', '', '', '0000-00-00', 0, '0000-00-00');
 
 -- --------------------------------------------------------
@@ -111,9 +111,9 @@ INSERT INTO `t_department` (`id_department`, `nama_department`) VALUES
 CREATE TABLE `t_detail` (
   `id_detail` int(10) NOT NULL,
   `nama_project` varchar(100) NOT NULL,
-  `detail` varchar(20) NOT NULL,
-  `pic` varchar(20) NOT NULL,
+  `nama_pic` varchar(20) NOT NULL,
   `instansi` varchar(20) NOT NULL,
+  `rincian` varchar(100) NOT NULL,
   `progres` int(10) NOT NULL,
   `tgl_update` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -122,8 +122,13 @@ CREATE TABLE `t_detail` (
 -- Dumping data for table `t_detail`
 --
 
-INSERT INTO `t_detail` (`id_detail`, `nama_project`, `detail`, `pic`, `instansi`, `progres`, `tgl_update`) VALUES
-(3, 'Tambah bandwith', 'Proposal', 'Ardi', 'ASD', 50, '2018-08-06');
+INSERT INTO `t_detail` (`id_detail`, `nama_project`, `nama_pic`, `instansi`, `rincian`, `progres`, `tgl_update`) VALUES
+(4, 'Tambah bandwith', 'Ardi', 'ASD', '<p><strong><em>Proposal Baru</em></strong></p>', 20, '2018-08-07'),
+(5, 'Tambah bandwith', 'Ardi', 'ASD', 'Proses', 60, '2018-08-06'),
+(9, 'Tambah bandwith', 'Ardi', 'ASD', 'Penagihan', 70, '2018-08-08'),
+(10, 'Software Development', 'Ardi', 'DSA', 'Proposal', 50, '2018-08-07'),
+(11, 'Software Development', 'Ardi', 'DSA', 'Penagihan ', 50, '2018-08-08'),
+(12, 'Software Development', 'Ardi', 'DSA', 'Proses', 70, '2018-08-07');
 
 -- --------------------------------------------------------
 
@@ -232,7 +237,7 @@ ALTER TABLE `t_department`
 -- AUTO_INCREMENT for table `t_detail`
 --
 ALTER TABLE `t_detail`
-  MODIFY `id_detail` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_detail` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `t_divisi`
