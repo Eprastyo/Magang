@@ -102,13 +102,13 @@
               <div class="form-group">
                 <div class="col-sm-5">
                   <label for="usr">Nama Project</label>
-                  <input type="text" name="rincian" value="<?php echo $u->nama_project ?>" class="form-control">
+                  <input type="text" name="nama_project" value="<?php echo $u->nama_project ?>" class="form-control" readonly>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-sm-5">
                   <label for="usr">Instansi</label>
-                  <input type="text" name="instansi" value="<?php echo $u->instansi?>" class="form-control">
+                  <input type="text" name="instansi" value="<?php echo $u->instansi?>" class="form-control" readonly>
                 </div>
               </div>
               <div class="form-group">
@@ -117,11 +117,8 @@
                   <input type="text" name="progres" value="<?php echo $u->progres?>" class="form-control">
                 </div>
               </div>
-              <div class="form-group">
-                <div class="col-sm-10">
-                  <label for="usr">Tanggal Update</label>
-                  <input type="date" name="tgl_update" class="form-control" value="<?php echo $u->tanggal_update?>" >
-              </div>
+                  <input type="hidden" name="tgl_update" value="<?php echo date("Y-m-d H:i:s")?>">
+                  <input type="hidden" name="nama_pic"   value="<?php echo $u->nama_pic?>">
               </div>
               <div class="form-group">
                 <div class="col-sm-5">

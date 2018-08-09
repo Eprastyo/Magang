@@ -87,54 +87,46 @@
           <li class="breadcrumb-item"><a href="data_tabel">Daily Report</a></li>
         </ul>
       </div>
+
+      <div style="width: 100%;" >
+        <div class="btn-group">
+         <form action="daily_report">
+              <button type="submit" class="btn btn-default" style="background-color: #e91e63;color: white;"><i class="icon fas fa-chevron-left"></i>Kembali
+             </button>
+         </form>
+        </div>
+      </div>
+
         <div class="card-body" style="background-color: #f5f6fa">
           <div class="table-responsive">
-            <table id="example" class="table" style="width:100%;">
-              <thead style="background-color: #f6e58d;">
+            <table id="example" class="table table-striped table-bordered" style="width:100%;">
+              <thead>
                 <tr>
-                  <th>No</th>
                   <th>Nama PIC</th>
                   <th>Nama Project</th>
                   <th>Instansi</th>
-                  <th>Progress</th>
-                  <th>Tanggal Update</th>
+                  <th>Rincian Log</th>
+                  <th>Prorgress Log</th>
+                  <th>Update Log</th>
                   <th>Action</th>
                 </tr>
               </thead>
 
               <tbody>
               <?php
-              $no_urut = 1;
-              foreach ($t_data_report as $hasil) {
+              foreach ($data_log as $hasil) {
               ?>
               <tr>
-                <td><?php echo $no_urut++ ?></td>
                 <td><?php echo $hasil->nama_pic ?></td>
                 <td><?php echo $hasil->nama_project ?></td>
                 <td><?php echo $hasil->instansi ?></td>
-                <td><?php echo $hasil->progres."%" ?></td>
-                <?php
-                $tgl_akhir  = new DateTime(date(".".$hasil->tanggal_update.""));
-                $tgl_hitung = new DateTime(date("Y-m-d H:i:s"));
-                $difference = $tgl_hitung->diff($tgl_akhir);
-                if($difference->days == 4){
-                ?>
-                  <td><label style="background-color: #eb4d4b;font: white;"><?php echo $hasil->tanggal_update ?></label></td>
-                <?php
-                }else{
-                ?>
-                  <td><label style="background-color: #badc58;font: white;"><?php echo $hasil->tanggal_update ?></label></td>
-                <?php
-                }
-                ?>
-                
+                <td><?php echo $hasil->rincian_log ?></td>
+                <td><?php echo $hasil->progress_log."%" ?></td>
+                <td><?php echo $hasil->update_log ?></td>
                 <td>
                   <center>
-                     <a href="detail_project?instan=<?php echo $hasil->instansi;?>&nama=<?php echo $hasil->nama_pic;?>&project=<?php echo $hasil->nama_project;?>">
-                       <button class="btn btn-default" style="background-color: #f6e58d;">Detail</button>
-                     </a>
-                     <a href="hapus_prog_utama?no=<?php echo $hasil->no;?>&nama_pic=<?php echo $hasil->nama_pic;?>&nama_project=<?php echo $hasil->nama_project;?>&instansi=<?php echo $hasil->instansi;?>&progres=<?php echo $hasil->progres;?>">
-                       <button class="btn btn-default" style="background-color: #ff7979;">Delete</button>
+                     <a href="hapus_log?id_log=<?php echo $hasil->id_log;?>&nama_pic=<?php echo $hasil->nama_pic;?>&nama_project=<?php echo $hasil->nama_project;?>&instansi=<?php echo $hasil->instansi;?>">
+                      <span class="fas fa-trash fa-lg" style="color: #ff7979"></span>
                      </a>
                   </center>
                 </td>

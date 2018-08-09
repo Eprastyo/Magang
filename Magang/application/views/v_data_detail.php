@@ -80,18 +80,23 @@
     <main class="app-content">
       <div class="app-title">
         <div>
-          <h1><i class="app-menu__icon fa fa-table"></i>Data Utama Staff</h1>
+          <h1><i class="app-menu__icon fa fa-table"></i>Detail Report</h1>
         </div>
         <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="fa fa-table fa-lg"></i></li>
-          <li class="breadcrumb-item"><a href="data_tabel">Data Utama Staff</a></li>
+          <li class="breadcrumb-item"><a href="data_tabel">Detail Report</a></li>
         </ul>
       </div>
 
+
       <div style="width: 100%;" >
         <div class="btn-group">
-          <form method="get" action="tambah_data">
-              <button class="btn btn-default" type="button" data-toggle="modal" data-target="#report"  style="color: white;background-color: #03a9f4"><i class="icon far fa-calendar-plus"> </i>Tambah Rincian
+         <form action="daily_report">
+             <button type="submit"class="btn btn-default" style="background-color: #e91e63;color: white;"><i class="icon fas fa-chevron-left"></i>Kembali
+             </button>
+         </form>
+         <form method="get" action="tambah_data">
+              <button class="btn btn-default" type="button" data-toggle="modal" data-target="#report"  style="color: white;background-color: #03a9f4"><i class="icon far fa-calendar-plus"></i>Tambah Rincian
               </button>
           </form>
         </div>
@@ -103,7 +108,7 @@
             <div class="modal-content">
               <!-- heading modal -->
               <div class="modal-header">
-                <h4 class="modal-title">Tambah Data</h4>
+                <h4 class="modal-title">Update Progres</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
               <!-- body modal -->
@@ -112,44 +117,43 @@
                     <div class="card-mb">
                       <div class="form-group">
                         <div class="col-sm-10">
+                          <label for="usr">Nama PIC</label>
                           <?php
                           foreach($t_data_input as $row)
                           {
                           ?>
-                          <input type="hidden" name="nama_pic" class="form-control" value="<?php echo $row->nama_pic ?>">
+                          <input type="text" name="nama_pic" class="form-control" value="<?php echo $row->nama_pic ?>" readonly>
                           <?php } ?>
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="col-sm-10">
                           <label for="usr">Nama Pekerjaan</label>
-                          <select class="form-control" name="nama_project">
                           <?php
                           foreach($t_data_input as $row)
                           {
-                            echo '<option value="'.$row->nama_project.'">'.$row->nama_project.'</option>';
-                          }
                           ?>
-                          </select>
+                          <input type="text" name="nama_project" class="form-control" value="<?php echo $row->nama_project ?>" readonly>
+                          <?php } ?>
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="col-sm-10">
                           <label for="usr">Instansi</label>
-                          <select class="form-control" name="instansi">
                           <?php
                           foreach($t_data_input as $row)
                           {
-                            echo '<option value="'.$row->instansi.'">'.$row->instansi.'</option>';
-                          }
                           ?>
-                          </select>
+                          <input type="text" name="instansi" class="form-control" value="<?php echo $row->instansi ?>" readonly>
+                          <?php } ?>
                         </div>
                       </div>
                       <div class="form-group">
-                        <div class="col-sm-10">
+                        <div class="col-sm-15">
                           <label for="usr">Rincian Pekerjaan</label>
-                          <input type="text" name="rincian" class="form-control">
+                            <script src="<?php echo base_url('assets/docs/tinymce/js/tinymce.min.js')?>"></script>
+                            <script>tinymce.init({ selector:'textarea' });</script>
+                            <textarea name="rincian" class="form-control"></textarea>
                         </div>
                       </div>
                       <div class="form-group">
@@ -158,12 +162,7 @@
                           <input type="number" name="progres" class="form-control">
                         </div>
                       </div>
-                      <div class="form-group">
-                        <div class="col-sm-5">
-                          <label for="usr">Tanggal Update</label>
-                          <input type="date" name="tanggal_update">
-                        </div>
-                      </div>
+                      <input type="hidden" name="tanggal_update" value="<?php echo date ("Y-m-d h:i:sa")?>">
                       <div class="form-group">
                         <div class="col-sm-5">
                           <button type="submit" style="background-color: #03a9f4;color: white" name="upload" class="btn btn-default" >Report</button>
@@ -183,8 +182,8 @@
 
         <div class="card-body" style="background-color: #f5f6fa">
           <div class="table-responsive">
-            <table id="example" class="table table-striped table-bordered" style="width:100%;">
-              <thead>
+            <table id="example" class="table" style="width:100%;">
+              <thead style="background-color: #f6e58d;">
                 <tr>
                   <th>No</th>
                   <th>Nama PIC</th>
@@ -206,21 +205,23 @@
                 <td><?php echo $hasil->nama_pic ?></td>
                 <td><?php echo $hasil->nama_project ?></td>
                 <td><?php echo $hasil->instansi ?></td>
-                <td><?php echo $hasil->progres ?></td>
+                <td><?php echo $hasil->progres."%" ?></td>
                 <td><?php echo $hasil->tanggal_update ?></td>
                 <td>
-                  <center>
                     <a href="edit_progres_utama?no=<?php echo $hasil->no;?>">
-                      Update
+                      <button class="btn btn-default" style="background-color: #7ed6df;">Update</button>
                     </a>
-                  </center>
+                    <a href="tampil_log?nama_pic=<?php echo $hasil->nama_pic;?>&nama_project=<?php echo $hasil->nama_project?>&instansi=<?php echo $hasil->instansi?>">
+                      <button class="btn btn-default" style="background-color: #badc58;">LOG</button>
+                    </a>
                 </td>
               </tr>
               <?php
               }
               ?>
               </tbody>
-              <thead>
+
+              <thead style="background-color: #f6e58d;">
                 <tr>
                   <th>Rincian</th>
                   <th>Progress</th>
@@ -229,21 +230,22 @@
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody">
               <?php
               $no_urut = 1;
               foreach ($prog_detail as $h) {
               ?>
               <tr>
                 <td><?php echo $h->rincian ?></td>
-                <td><?php echo $h->progres?></td>
+                <td><?php echo $h->progres."%" ?></td>
                 <td><?php echo $h->tgl_update ?></td>
                 <td>
-                <center>
-                     <a href="<?php echo base_url('Admin/edit_progres/'.$h->id_detail);?>">
+                    <a href="<?php echo base_url('Admin/edit_progres/'.$h->id_detail);?>">
                       <span class="fa fa-edit fa-lg" style="color: #03a9f4"></span>
-                     </a>
-                </center>
+                    </a>
+                    <a href="hapus_rincian?id_detail=<?php echo $h->id_detail;?>&nama_project=<?php echo $h->nama_project?>&instansi=<?php echo $h->instansi?>&nama_pic=<?php echo $h->nama_pic?>">
+                      <span class="fas fa-trash fa-lg" style="color: #ff7979"></span>
+                    </a>
                 </td>
               </tr>
               <?php

@@ -74,7 +74,6 @@
           </ul>
         </li>
       </ul>
-
     </aside>
 
     <main class="app-content">
@@ -93,12 +92,10 @@
         <?php foreach($edit_prog as $u){ ?>
         <form action="<?php echo base_url(). 'Admin/update_progres'; ?>" method="post">
           <div class="card-mb">
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr"></label>
-                  <input type="hidden" name="id_detail" value="<?php echo $u->id_detail ?>" class="form-control" readonly>
-                </div>
-              </div>
+                <input type="hidden" name="id_detail" value="<?php echo $u->id_detail ?>" class="form-control">
+                <input type="hidden" name="nama_project" value="<?php echo $u->nama_project ?>" class="form-control">
+                <input type="hidden" name="nama_pic" value="<?php echo $u->nama_pic ?>" class="form-control">
+                <input type="hidden" name="instansi" value="<?php echo $u->instansi ?>" class="form-control">
               <div class="form-group">
                 <div class="col-sm-7">
                   <label for="usr">Rincian Pekerjaan</label>
@@ -108,17 +105,12 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-5">
+                <div class="col-sm-3">
                   <label for="usr">Progress</label>
                   <input type="text" name="progres" value="<?php echo $u->progres?>" class="form-control">
                 </div>
               </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Tanggal Update</label>
-                  <input type="date" name="tgl_update" class="form-control" value="<?php echo $u->tgl_update?>" >
-              </div>
-              </div>
+              <input type="hidden" name="tgl_update" value="<?php echo date ("Y-m-d h:i:s")?>">
               <div class="form-group">
                 <div class="col-sm-5">
                   <button type="submit" style="background-color: #0abde3;color: white" name="Simpan" class="btn btn-default">Update

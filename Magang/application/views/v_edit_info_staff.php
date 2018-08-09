@@ -144,8 +144,10 @@
               </div>
               <div class="form-group">
                 <div class="col-sm-10">
-                <label for="comment">Informasi Pekerjaan</label>
-                <textarea class="form-control" rows="5" name="info"><?php echo $u->info?></textarea>
+                <label>Informasi Pekerjaan</label>
+                 <script src="<?php echo base_url('assets/docs/tinymce/js/tinymce.min.js')?>"></script>
+                 <script>tinymce.init({ selector:'textarea' });</script>
+                 <textarea name="info" class="form-control"><?php echo $u->info?></textarea>
                 </div>
               </div>
               <div class="form-group">

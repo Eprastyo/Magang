@@ -5,7 +5,7 @@ class M_data extends CI_Model{
 	}
 	function tampil_data_staff(){
 		$nama = $this->session->userdata('nama');
-	  $sql = "SELECT * FROM t_data_utama where nama_pic='$nama'";
+	  	$sql = "SELECT * FROM t_data_utama where nama_pic='$nama'";
 		return $this->db->query($sql);
 	}
 	function tampil_data_report(){
@@ -39,9 +39,15 @@ class M_data extends CI_Model{
 		$nama = $this->session->userdata('nama');
 		return $this->db->get_where($table,$where);
 	}
+	function log_detail($where,$table){
+		return $this->db->get_where($table,$where);
+	}
 	function update_data($where,$data,$table){
 		$this->db->where($where);
 		$this->db->update($table,$data);
+	}
+	function tambah_log($data,$table){
+		return $this->db->insert($table,$data);
 	}
 	function pilihan_type(){
 		 $this->db->select('*');
