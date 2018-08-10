@@ -68,15 +68,27 @@
           <ul class="treeview-menu">
             <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel')?>">
-                <i class="icon fab fa-uikit"></i>Utama</a>
+              <i class="icon fab fa-uikit"></i>
+              Utama
+              </a>
+            </li>
+             <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/daily_report_manager')?>">
+              <i class="icon fab fa-uikit"></i>
+              Daily Report
+              </a>
             </li>
              <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/monitoring_kerja')?>">
-                <i class="icon fab fa-uikit"></i>Project Monitoring</a>
+              <i class="icon fab fa-uikit"></i>
+              Project Monitoring
+              </a>
             </li>
             <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
-                <i class="icon fab fa-uikit"></i>Department</a>
+              <i class="icon fab fa-uikit"></i>
+              Department
+              </a>
             </li>
           </ul>
         </li>

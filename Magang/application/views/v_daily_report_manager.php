@@ -47,7 +47,7 @@
 
       <ul class="app-menu">
         <li>
-          <a class="app-menu__item active" href="staff">
+          <a class="app-menu__item active" href="manager">
             <i class="app-menu__icon fas fa-tachometer-alt"></i>
             <span class="app-menu__label">Dashboard</span>
           </a>
@@ -60,15 +60,27 @@
           </a>
           <ul class="treeview-menu">
             <li>
-              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel_staff')?>">
-                <i class="icon fab fa-uikit"></i>Project Monitoring</a>
+              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel')?>">
+              <i class="icon fab fa-uikit"></i>
+              Utama
+              </a>
             </li>
-          </ul>
-          <ul class="treeview-menu">
-            <li>
-              <a class="treeview-item" href="<?php echo base_url('Admin/daily_report')?>">
+             <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/daily_report_manager')?>">
               <i class="icon fab fa-uikit"></i>
               Daily Report
+              </a>
+            </li>
+             <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/monitoring_kerja')?>">
+              <i class="icon fab fa-uikit"></i>
+              Project Monitoring
+              </a>
+            </li>
+            <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
+              <i class="icon fab fa-uikit"></i>
+              Department
               </a>
             </li>
           </ul>
@@ -130,8 +142,11 @@
                 
                 <td>
                   <center>
-                     <a href="detail_project?instan=<?php echo $hasil->instansi;?>&nama=<?php echo $hasil->nama_pic;?>&project=<?php echo $hasil->nama_project;?>">
+                     <a href="detail_project_manager?instan=<?php echo $hasil->instansi;?>&nama=<?php echo $hasil->nama_pic;?>&project=<?php echo $hasil->nama_project;?>">
                        <button class="btn btn-default" style="background-color: #f6e58d;">Detail</button>
+                     </a>
+                     <a href="hapus_prog_utama?no=<?php echo $hasil->no;?>&nama_pic=<?php echo $hasil->nama_pic;?>&nama_project=<?php echo $hasil->nama_project;?>&instansi=<?php echo $hasil->instansi;?>&progres=<?php echo $hasil->progres;?>">
+                       <button class="btn btn-default" style="background-color: #ff7979;">Delete</button>
                      </a>
                   </center>
                 </td>

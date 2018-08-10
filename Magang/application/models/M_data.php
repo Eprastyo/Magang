@@ -13,6 +13,11 @@ class M_data extends CI_Model{
 		$sql = "SELECT * FROM t_data_utama where nama_pic='$nama'";
 		return $this->db->query($sql);
 	}
+	function tampil_daily_report(){
+		$nama = $this->session->userdata('nama');
+		$sql = "SELECT * FROM t_data_utama";
+		return $this->db->query($sql);
+	}
 	function tampil_nama_staff(){
 		return $this->db->get('t_data_user');
 	}

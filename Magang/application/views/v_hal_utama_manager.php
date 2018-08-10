@@ -73,6 +73,12 @@
               </a>
             </li>
              <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/daily_report_manager')?>">
+              <i class="icon fab fa-uikit"></i>
+              Daily Report
+              </a>
+            </li>
+             <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/monitoring_kerja')?>">
               <i class="icon fab fa-uikit"></i>
               Project Monitoring

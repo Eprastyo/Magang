@@ -1,5 +1,7 @@
 <?php
 class Admin extends CI_Controller{
+	
+
 	function __construct(){
 		parent::__construct();
 		$this->load->model('M_data');
@@ -150,8 +152,17 @@ class Admin extends CI_Controller{
 	 function daily_report(){
 		 if($this->session->userdata('status') == "staff"){
 		 $data['t_data_report'] = $this->M_data->tampil_data_report()->result();
-		 // $data['t_data_input'] = $this->M_data->tampil_data_staff()->result();
 		 $this->load->view('v_daily_report',$data);
+	 }
+	 else{
+		 redirect(base_url('Login'));
+	 }
+	 }
+
+	 function daily_report_manager(){
+		 if($this->session->userdata('status') == "manager"){
+		 $data['t_data_report'] = $this->M_data->tampil_daily_report()->result();
+		 $this->load->view('v_daily_report_manager',$data);
 	 }
 	 else{
 		 redirect(base_url('Login'));
@@ -270,6 +281,39 @@ class Admin extends CI_Controller{
 	$this->load->view('v_data_detail',$t);
 	}
 
+	function update_progres_manager(){
+	$id_detail = $this->input->post('id_detail');
+	$rincian = $this->input->post('rincian');
+	$progres = $this->input->post('progres');
+	$tanggal_update = $this->input->post('tgl_update');
+
+	$nama_pic = $this->input->post('nama_pic');
+	$nama_project = $this->input->post('nama_project');
+	$instansi = $this->input->post('instansi');
+
+
+	$data = array(
+		'id_detail' => $id_detail,
+		'rincian' => $rincian,
+		'progres' => $progres,
+		'tgl_update' => $tanggal_update,
+	);
+
+	$data_log = array('nama_pic' => $nama_pic,'nama_project' => $nama_project,'instansi' => $instansi,'rincian_log' => $rincian,'progress_log' => $progres,'update_log' => $tanggal_update);
+
+	$where = array('id_detail' => $id_detail);
+
+	$this->M_data->update_data($where,$data,'t_detail');
+	$this->M_data->tambah_log ($data_log,'t_log');
+
+	$hasil = array('nama_pic' => $nama_pic,'instansi' => $instansi,'nama_project' =>$nama_project);
+	$t ['prog_detail'] = $this->M_data->prog_detail($hasil,'t_detail')->result();
+	$t ['t_data_report'] = $this->M_data->prog_detail($hasil,'t_data_utama')->result();
+	$t ['t_data_input'] = $this->M_data->prog_detail($hasil,'t_data_utama')->result();
+
+	$this->load->view('v_data_detail_manager',$t);
+	}
+
 	function update_progres_utama(){
 	$no = $this->input->post('no');
 	$progres = $this->input->post('progres');
@@ -309,6 +353,45 @@ class Admin extends CI_Controller{
 
 	$this->load->view('v_data_detail',$t);
 
+	}
+	function update_progres_utama_manager(){
+	$no = $this->input->post('no');
+	$progres = $this->input->post('progres');
+	$nama_project = $this->input->post('nama_project');
+	$instansi = $this->input->post('instansi');
+	$tanggal_update = $this->input->post('tgl_update');
+	$nama_pic = $this->input->post('nama_pic');
+
+	$data = array(
+		'no' => $no,
+		'progres' => $progres,
+		'tanggal_update' => $tanggal_update,
+		'instansi' => $instansi,
+		'nama_project' => $nama_project,
+		'nama_pic' => $nama_pic,
+	);
+
+	$data_log = array(
+		'prog_log_utama' => $progres,
+		'update_log_utama' => $tanggal_update,
+		'instansi' => $instansi,
+		'nama_project' => $nama_project,
+		'nama_pic' => $nama_pic,
+	);
+
+	$where = array(
+		'no' => $no
+	);
+
+	$this->M_data->tambah_log($data_log,'t_log');
+	$this->M_data->update_data($where,$data,'t_data_utama');
+
+	$hasil = array('nama_pic' => $nama_pic,'instansi' => $instansi,'nama_project' =>$nama_project);
+	$t ['prog_detail'] = $this->M_data->prog_detail($hasil,'t_detail')->result();
+	$t ['t_data_report'] = $this->M_data->prog_detail($hasil,'t_data_utama')->result();
+	$t ['t_data_input'] = $this->M_data->prog_detail($hasil,'t_data_utama')->result();
+
+	$this->load->view('v_data_detail_manager',$t);
 	}
 	function tambah_data_staff(){
 		$nama_staff = $this->input->post('nama');
@@ -377,6 +460,11 @@ class Admin extends CI_Controller{
 	$data['edit_prog'] = $this->M_data->edit_data($where,'t_detail')->result();
 	$this->load->view('v_edit_progres',$data);
 	}
+	function edit_progres_manager($id_detail){
+	$where = array('id_detail' => $id_detail);
+	$data['edit_prog'] = $this->M_data->edit_data($where,'t_detail')->result();
+	$this->load->view('v_edit_progres_manager',$data);
+	}
 
 	function edit_progres_utama(){
 	$no = $this->input->get('no');
@@ -385,6 +473,12 @@ class Admin extends CI_Controller{
 	$this->load->view('v_edit_prog_utama',$data);
 	}
 
+	function edit_progres_utama_manager(){
+	$no = $this->input->get('no');
+	$where = array('no' => $no);
+	$data['edit_prog'] = $this->M_data->edit_data($where,'t_data_utama')->result();
+	$this->load->view('v_edit_prog_utama_manager',$data);
+	}
 	function detail_project(){
 	$instansi = $this->input->get('instan');
 	$nama_pic = $this->input->get('nama');
@@ -398,6 +492,19 @@ class Admin extends CI_Controller{
 	$this->load->view('v_data_detail',$data);
 	}
 
+	function detail_project_manager(){
+	$instansi = $this->input->get('instan');
+	$nama_pic = $this->input->get('nama');
+	$nama_project = $this->input->get('project');
+
+	$where = array('nama_pic' => $nama_pic,'instansi' => $instansi,'nama_project' =>$nama_project);
+	$data ['prog_detail'] = $this->M_data->prog_detail($where,'t_detail')->result();
+	$data ['t_data_report'] = $this->M_data->prog_detail($where,'t_data_utama')->result();
+	$data ['t_data_input'] = $this->M_data->prog_detail($where,'t_data_utama')->result();
+
+	$this->load->view('v_data_detail_manager',$data);
+	}
+
 	function tampil_log(){
 	$nama_pic = $this->input->get('nama_pic');
 	$nama_project = $this->input->get('nama_project');
@@ -406,6 +513,16 @@ class Admin extends CI_Controller{
 	$where = array('nama_pic' => $nama_pic,'nama_project' => $nama_project,'instansi' => $instansi);
 	$data ["data_log"] = $this->M_data->log_detail($where,'t_log')->result();
 	$this->load->view('v_detail_log',$data);
+	}
+
+	function tampil_log_manager(){
+	$nama_pic = $this->input->get('nama_pic');
+	$nama_project = $this->input->get('nama_project');
+	$instansi = $this->input->get('instansi');
+
+	$where = array('nama_pic' => $nama_pic,'nama_project' => $nama_project,'instansi' => $instansi);
+	$data ["data_log"] = $this->M_data->log_detail($where,'t_log')->result();
+	$this->load->view('v_detail_log_manager',$data);
 	}
 
 	function edit_staff($id_user){
@@ -574,8 +691,7 @@ class Admin extends CI_Controller{
 		        }
         echo json_encode($asd);
 	}
-
-	public function grafik_d(){
+	function grafik_d(){
 			$hasil_d = $this->M_data->grafik_donut();
 		    $responce->cols[] = array(
 		        "id" => "",
@@ -608,3 +724,4 @@ class Admin extends CI_Controller{
 		$this->load->view('tanggal');
 	}
 }
+

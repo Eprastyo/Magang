@@ -47,7 +47,7 @@
 
       <ul class="app-menu">
         <li>
-          <a class="app-menu__item active" href="staff">
+          <a class="app-menu__item active" href="manager">
             <i class="app-menu__icon fas fa-tachometer-alt"></i>
             <span class="app-menu__label">Dashboard</span>
           </a>
@@ -60,15 +60,27 @@
           </a>
           <ul class="treeview-menu">
             <li>
-              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel_staff')?>">
-                <i class="icon fab fa-uikit"></i>Project Monitoring</a>
+              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel')?>">
+              <i class="icon fab fa-uikit"></i>
+              Utama
+              </a>
             </li>
-          </ul>
-          <ul class="treeview-menu">
-            <li>
-              <a class="treeview-item" href="<?php echo base_url('Admin/daily_report')?>">
+             <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/daily_report_manager')?>">
               <i class="icon fab fa-uikit"></i>
               Daily Report
+              </a>
+            </li>
+             <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/monitoring_kerja')?>">
+              <i class="icon fab fa-uikit"></i>
+              Project Monitoring
+              </a>
+            </li>
+            <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
+              <i class="icon fab fa-uikit"></i>
+              Department
               </a>
             </li>
           </ul>
@@ -91,12 +103,12 @@
 
       <div style="width: 100%;" >
         <div class="btn-group">
-         <form action="daily_report">
-             <button type="submit"class="btn btn-default" style="background-color: #e91e63;color: white;"><i class="icon fas fa-chevron-left"></i>Back
+         <form action="daily_report_manager">
+             <button type="submit"class="btn btn-default" style="background-color: #e91e63;color: white;"><i class="icon fas fa-chevron-left"></i>Kembali
              </button>
          </form>
          <form method="get" action="tambah_data">
-              <button class="btn btn-default" type="button" data-toggle="modal" data-target="#report"  style="color: white;background-color: #03a9f4"><i class="icon far fa-calendar-plus"></i>Add Entry
+              <button class="btn btn-default" type="button" data-toggle="modal" data-target="#report"  style="color: white;background-color: #03a9f4"><i class="icon far fa-calendar-plus"></i>Tambah Rincian
               </button>
           </form>
         </div>
@@ -208,10 +220,10 @@
                 <td><?php echo $hasil->progres."%" ?></td>
                 <td><?php echo $hasil->tanggal_update ?></td>
                 <td>
-                    <a href="edit_progres_utama?no=<?php echo $hasil->no;?>">
+                    <a href="edit_progres_utama_manager?no=<?php echo $hasil->no;?>">
                       <button class="btn btn-default" style="background-color: #7ed6df;">Update</button>
                     </a>
-                    <a href="tampil_log?nama_pic=<?php echo $hasil->nama_pic;?>&nama_project=<?php echo $hasil->nama_project?>&instansi=<?php echo $hasil->instansi?>">
+                    <a href="tampil_log_manager?nama_pic=<?php echo $hasil->nama_pic;?>&nama_project=<?php echo $hasil->nama_project?>&instansi=<?php echo $hasil->instansi?>">
                       <button class="btn btn-default" style="background-color: #badc58;">LOG</button>
                     </a>
                 </td>
@@ -240,8 +252,11 @@
                 <td><?php echo $h->progres."%" ?></td>
                 <td><?php echo $h->tgl_update ?></td>
                 <td>
-                    <a href="<?php echo base_url('Admin/edit_progres/'.$h->id_detail);?>">
+                    <a href="<?php echo base_url('Admin/edit_progres_manager/'.$h->id_detail);?>">
                       <span class="fa fa-edit fa-lg" style="color: #03a9f4"></span>
+                    </a>
+                    <a href="hapus_rincian?id_detail=<?php echo $h->id_detail;?>&nama_project=<?php echo $h->nama_project?>&instansi=<?php echo $h->instansi?>&nama_pic=<?php echo $h->nama_pic?>">
+                      <span class="fas fa-trash fa-lg" style="color: #ff7979"></span>
                     </a>
                 </td>
               </tr>
