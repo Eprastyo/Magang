@@ -3,6 +3,9 @@ class M_data extends CI_Model{
 	function tampil_data(){
 		return $this->db->get('t_data_utama');
 	}
+	function tampil_detail_log($where,$table){
+		return $this->db->get_where($table,$where);
+	}
 	function tampil_data_staff(){
 		$nama = $this->session->userdata('nama');
 	  	$sql = "SELECT * FROM t_data_utama where nama_pic='$nama'";
@@ -11,6 +14,17 @@ class M_data extends CI_Model{
 	function tampil_data_report(){
 		$nama = $this->session->userdata('nama');
 		$sql = "SELECT * FROM t_data_utama where nama_pic='$nama'";
+		return $this->db->query($sql);
+	}
+	function data_user($username){
+		$sql = "SELECT email FROM t_data_user where nama='$username'";
+		return $this->db->query($sql);
+	}
+	function tampil_update_log($where,$table){
+		return $this->db->get_where($table,$where);
+	}
+	function tampil_daily_manager(){
+		$sql = "SELECT * FROM t_data_utama";
 		return $this->db->query($sql);
 	}
 	function tampil_daily_report(){
@@ -31,18 +45,30 @@ class M_data extends CI_Model{
 		$this->db->where($where);
 		$this->db->delete($table);
 	}
+
 	function input_data($data,$table){
 		return $this->db->insert($table,$data);
 	}
+
+	function input_data_komen($where,$table,$data){
+		$this->db->where($where);
+		$this->db->update($table,$data);
+	}
+
 	function edit_data($where,$table){
 		return $this->db->get_where($table,$where);
 	}
+
 	function data_detail($where,$table){
 		return $this->db->get_where($table,$where);
 	}
+
 	function prog_detail($where,$table){
 		$nama = $this->session->userdata('nama');
 		return $this->db->get_where($table,$where);
+	}
+	function prog_detail_manager($where,$table){
+        return $this->db->get_where($table,$where);
 	}
 	function log_detail($where,$table){
 		return $this->db->get_where($table,$where);
@@ -94,9 +120,9 @@ class M_data extends CI_Model{
 		$sql = "SELECT SUM(real_pendapatan) as tot_real from t_data_utama WHERE tanggal LIKE '%$tahun%' && nama_pic='$nama'";
 		return $this->db->query($sql);
 	}
-	function hasil_grafik(){
-		$sql = "SELECT SUM(esti_pendapatan) as tot_esti,SUM(real_pendapatan) as tot_real from t_data_utama";
-		return $this->db->query($sql)->result();
+	function tabel_grafik($tahun){
+		$query = "SELECT nama_pic,SUM(real_pendapatan) AS tot_real FROM t_data_utama WHERE tanggal LIKE '%$tahun%' GROUP BY nama_pic";
+        return $this->db->query($query)->result();
 	}
 	function grafik($tahun){
 		$query = "SELECT nama_pic,SUM(real_pendapatan) AS tot_real,COUNT(real_pendapatan) AS baris_real FROM t_data_utama WHERE tanggal LIKE '%$tahun%' GROUP BY nama_pic ORDER BY tot_real";

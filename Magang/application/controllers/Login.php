@@ -17,8 +17,10 @@ class Login extends CI_Controller {
 	public function aksi_login(){
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-		$level1 = "manager";
+
+		$level1 = "admin";
 		$level2 = "staff";
+		$level3 = "manager";
 
 		if($where = array(
 			'nama' => $username,
@@ -32,17 +34,37 @@ class Login extends CI_Controller {
 				$data_session = array(
 					'nama' => $username,
 					'password' => $password,
-					'status' => "manager"
+					'status' => "admin"
 					);
 	 
 				$this->session->set_userdata($data_session);
-				redirect(base_url("Admin/manager"));
+				redirect(base_url("Admin/admin"));
 			}
 		}
+
 		if($where = array(
 			'nama' => $username,
 			'password' => $password,
 			'level' => $level2
+			)){
+
+		$cek = $this->M_login->cek_login("t_data_user",$where)->num_rows();
+			if($cek > 0){
+				$data = $this->M_data->data_user($username);
+				$data_session = array(
+					'nama' => $username,
+					'password' => $password,
+					'status' => "staff",
+					);
+				$this->session->set_userdata($data_session);
+				redirect(base_url("Staff/staff"));
+			}
+		}
+
+		if($where = array(
+			'nama' => $username,
+			'password' => $password,
+			'level' => $level3
 			)){
 
 		$cek = $this->M_login->cek_login("t_data_user",$where)->num_rows();
@@ -51,11 +73,11 @@ class Login extends CI_Controller {
 				$data_session = array(
 					'nama' => $username,
 					'password' => $password,
-					'status' => "staff"
+					'status' => "manager"
 					);
 	 
 				$this->session->set_userdata($data_session);
-				redirect(base_url("Admin/staff"));
+				redirect(base_url("Manager/manager"));
 			}
 		}
 }
