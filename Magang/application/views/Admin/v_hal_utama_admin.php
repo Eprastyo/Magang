@@ -113,10 +113,10 @@
       </div>
 
       <div>
-          <form method="post" action="<?php echo base_url().'Manager/manager';?>">
+          <form method="post" action="<?php echo base_url().'Admin/admin';?>">
             <label>Pilih :</label>
             <select name="tahun" style="width: 100px; height: 25px;">
-                    <option value="<?php echo $search ?>"selected><?php echo $search ?></option>
+                    <option value="<?php echo $search ?>"selected><?php echo $search; ?></option>
                 <?php  
                 $thn_skr = date('Y');
                 for ($x = $thn_skr; $x >= 2016; $x--) {
@@ -134,7 +134,7 @@
         <div class="col-md-6 col-lg-6">
           <div class="widget-small primary coloured-icon"><i class="icon far fa-building fa-3x"></i>
             <div class="info">
-                <h4>Nilai Total Estimasi Pendapatan</h4>
+                <h4>Nilai Total Planning Pekerjaan <?php echo $search ?></h4>
                 <?php
                   foreach ($hasil_estimasi->result() as $row) {
                     ?>
@@ -149,7 +149,7 @@
         <div class="col-md-6 col-lg-6">
             <div class="widget-small primary coloured-icon"><i class="icon fas fa-user-check fa-3x"></i>
               <div class="info">
-                <h4>Nilai Total Pendapatan(SPK)</h4>
+                <h4>Nilai Total Pendapatan(SPK) <?php echo $search ?></h4>
                 <?php
                   foreach ($hasil_real->result() as $row) {
                     ?>
@@ -164,12 +164,12 @@
       
       <div class="row">
          <div class="col-md-6 col-lg-6">
-                <label><b>GRAFIK PERBANDINGAN ESTIMASI DENGAN PENDAPATAN (SPK)</b></label>
+                <label><b>GRAFIK PERBANDINGAN PLANNING DENGAN PENDAPATAN (SPK) <?php echo $search ?></b></label>
                 <div id="piechart" style="height: 35%;width: 100%;">
                   <?php
                       $data_string = '';    
                       foreach($data as $key=>$data){
-                      $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Estimasi Pendapatan";
+                      $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Planning Pekerjaan";
                       $warna = ($key == "tot_real")?"#76A7FA":"#e5e4e2";
                       $data_string .= "['$string'".",". $data ."],";
                       }
@@ -196,7 +196,7 @@
           </div>
 
            <div class="col-md-6 col-lg-6">
-                <label><b>GRAFIK PENDAPATAN PERSONAL IN CHARGE</b></label>
+                <label><b>GRAFIK PENDAPATAN PERSONAL IN CHARGE <?php echo $search ?></b></label>
                 <canvas id="myChart" style="background-color: white;">
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
                   <?php
@@ -267,7 +267,7 @@
       </div>
       <div class="row">
         <div class="col-md-6 col-lg-6">
-            <label><b>GRAFIK PERBANDINGAN PENDAPATAN PER DIVISI</b></label>
+            <label><b>GRAFIK PERBANDINGAN PENDAPATAN PER DIVISI <?php echo $search ?></b></label>
             <div id="asd" style="height: 35%;width: 100%;"></div>
         </div>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -298,7 +298,37 @@
           }
         </script>
         <div class="col-md-6 col-lg-6">
-          <label><b>TABEL JUMLAH CLIENT</b></label>
+          <label><b>NILAI PENDAPATAN PERSONAL IN CHARGE <?php echo $search ?></b></label>
+          <div style="height: 35%;width: 100%;background-color: white;">
+                  <div class="table-responsive">
+                  <table id="example" class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Nama PIC</th>
+                        <th>Jumlah</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                    <?php
+                    $no_urut = 1;
+                    foreach ($hasil_tabel as $data) {
+                    ?>
+                    <tr>
+                      <td><?php echo $no_urut++ ?></td>
+                      <td><?php echo $data->nama_pic?></td>
+                      <td><?php echo uang($data->tot_real)?></td>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+
+                    </tbody>
+                  </table>
+                </div>
+          </div>
+      <!--<label><b>TABEL JUMLAH CLIENT</b></label>
           <div style="height: 35%;width: 100%;background-color: white;">
           <div class="table-responsive">
           <table class="table table-striped">
@@ -344,12 +374,60 @@
             </tr>
           </table>
           </div>
-          </div>
+          </div> -->
         </div>
+      </div>
+
+      <div id="detail-pendapatan" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- konten modal-->
+            <div class="modal-content">
+              <!-- heading modal -->
+              <div class="modal-header">
+                <h4 class="modal-title">Tabel Pendapatan</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <!-- body modal -->
+              <div class="modal-body">
+                    <div class="card-mb">  
+                        <div class="table-responsive">
+                          <table id="example" class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>No</th>
+                              <th>Nama PIC</th>
+                              <th>Jumlah</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                          <?php
+                          $no_urut = 1;
+                          foreach ($hasil_tabel as $data) {
+                          ?>
+                          <tr>
+                            <td><?php echo $no_urut++ ?></td>
+                            <td><?php echo $data->nama_pic?></td>
+                            <td><?php echo uang($data->tot_real)?></td>
+                          </tr>
+                          <?php
+                          }
+                          ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              <!-- footer modal -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="color: white;background-color: #e91e63">Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>   
+   
     </main>
     <script src="<?php echo base_url('assets/docs/js/jquery-3.2.1.min.js')?>"></script>
     <script src="<?php echo base_url('assets/docs/js/popper.min.js')?>"></script>

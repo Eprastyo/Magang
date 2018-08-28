@@ -54,8 +54,8 @@
       </div>
 
       <ul class="app-menu">
-        <li>
-          <a class="app-menu__item active" href="">
+         <li>
+          <a class="app-menu__item active" href="admin">
             <i class="app-menu__icon fas fa-tachometer-alt"></i>
             <span class="app-menu__label">Dashboard</span>
           </a>
@@ -68,14 +68,24 @@
           </a>
           <ul class="treeview-menu">
             <li>
-              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel')?>">
-                <i class="icon fab fa-uikit"></i>Utama</a>
+              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel_admin')?>">
+              <i class="icon fab fa-uikit"></i>
+              Utama
+              </a>
             </li>
-            <li>
-              <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
-                <i class="icon fab fa-uikit"></i>Department</a>
+             <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/daily_report_admin')?>">
+              <i class="icon fab fa-uikit"></i>
+              Daily Report
+              </a>
             </li>
-          </ul>
+             <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/data_department_admin')?>">
+              <i class="icon fab fa-uikit"></i>
+              Department
+              </a>
+            </li>
+         </ul>
         </li>
       </ul>
 
@@ -92,65 +102,34 @@
         </u>
       </div>
 
-      <div class="row">
-        <div class="card-body">
+        <div style="margin-bottom: 1%;">
+            <button type="Cancel" class="btn btn-default" style="background-color: #e91e63;color: white;margin-left: 5%;" onclick="goBack();"><i class="icon fas fa-chevron-left"></i>Kembali</button>
+        </div>
+
         <?php foreach($t_data_utama as $u){ ?>
         <form action="<?php echo base_url(). 'Admin/update'; ?>" method="post">
-          <div class="card-mb">
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr"></label>
-                  <input type="hidden" name="no" value="<?php echo $u->no ?>" class="form-control" readonly>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Kode Project</label>
-                  <input type="text" name="kode_project" value="<?php echo $u->kode_project ?>" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-5">
+            <input type="hidden" name="no" value="<?php echo $u->no ?>" class="form-control" readonly>
+            <div id="kiri">
                   <label for="usr">Nama PIC</label>
                   <input type="text" name="nama_pic" value="<?php echo $u->nama_pic ?>" class="form-control" readonly>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-10">
+
                   <label for="usr">Nama Project</label>
                   <input type="text" name="nama_project" class="form-control" value="<?php echo $u->nama_project ?>" >
-              </div>
-                </div>
-              <div class="form-group">
-                <div class="col-sm-10">
+
                   <label for="usr">Instansi</label>
                   <input type="text" name="instansi" class="form-control" value="<?php echo $u->instansi ?>" >
-                </div>
-              </div>
-               <div class="form-group">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-sm-5">
-                      <label for="usr">Type</label>
+                  <label for="usr">Type</label>
                        <select class="form-control" name="type">
                         <?php 
                             echo '<option value="'.$u->type.'" selected>'.$u->type.'</option>';
                         ?>
                          <option value="New">New</option>
-                         <option value="Existing">Existing</option>
+                         <option value="Existing">Maintenance</option>
                          <option value="Upgrade">Upgrade</option>
                          <option value="Downgrade">Downgrade</option>
                        </select>
-                    </div>
-                  </div>
-               </div>
-              </div>
-              <div class="form-group">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-sm-5">
-                      <label for="usr">Divisi</label>
-                        <select class="form-control" name="divisi">
+                  <label for="usr">Divisi</label>
+                       <select class="form-control" name="divisi">
                           <?php 
                           echo '<option value="'.$u->divisi.'" selected>'.$u->divisi.'</option>';
                           foreach($nama_dept as $row)
@@ -159,36 +138,24 @@
                           }
                           ?>
                        </select>
-                    </div>
-                  </div>
-               </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Estimasi Pendapatan</label>
-                  <input type="number" name="est_pendapatan" class="form-control" value="<?php echo $u->esti_pendapatan ?>" >
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Real Pendapatan</label>
-                  <input type="number" name="real_pendapatan" class="form-control" value="<?php echo $u->real_pendapatan ?>" >
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <label for="usr">Tanggal</label>
-                  <input type="date" name="tanggal" value="<?php echo $u->tanggal ?>"  >
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-5">
-                  <button type="submit" style="background-color: #0abde3;color: white" name="Simpan" class="btn btn-default">Update
+                  <label for="usr">PIC Instansi</label>
+                  <input type="text" name="pic_instansi" class="form-control" value="<?php echo $u->pic_instansi ?>">
+                  <label for="usr">No Telp</label>
+                  <input type="text" name="no_telp" class="form-control" value="<?php echo $u->no_telp?>">
+            </div>
+            <div id="kanan">
+                  <label for="usr">Kode Project</label>
+                  <input type="text" name="kode_project" value="<?php echo $u->kode_project ?>" class="form-control">
+                  <label for="usr">Nilai Planning Pekerjaan</label>
+                  <input type="text" name="est_pendapatan" id="num" class="form-control" onkeyup="document.getElementById('format1').innerHTML = formatCurrency(this.value);" value="<?php echo $u->esti_pendapatan ?>">
+                   <span id="format1" style="background-color: white;"></span><br>
+                  <label for="usr">Pendapatan (SPK)</label>
+                  <input type="text" name="real_pendapatan" id="num" class="form-control" onkeyup="document.getElementById('format2').innerHTML = formatCurrency(this.value);" value="<?php echo $u->real_pendapatan ?>">
+                  <span id="format2" style="background-color: white;"></span>
+                  <br>
+                  <button  type="submit" style="background-color: #0abde3;color: white;" name="Simpan" class="btn btn-default">Update
                   </button>
-                  <button class="btn btn-default" style="background-color: #e91e63;color: white" onclick= "goBack()" >Cancel</button>
-                </div>
-              </div>
-          </div>
+            </div>
         </form>
         <?php } ?>
         </div>
@@ -215,16 +182,38 @@
     <style type="text/css">
       #kiri
       {
-      width:50%;
-      height:100px;
+      width:40%;
       float:left;
+      margin-left: 5%;
       }
       #kanan
       {
-      width:50%;
-      height:100px;
+      width:40%;
       float:right;
+      margin-right: 5%;
       }
     </style>
+    <script type="text/javascript">
+        function formatCurrency(num) {
+        num = num.toString().replace(/\$|\,/g,'');
+        if(isNaN(num))
+        num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num*100+0.50000000001);
+        cents = num%100;
+        num = Math.floor(num/100).toString();
+        if(cents<10)
+        cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+        num = num.substring(0,num.length-(4*i+3))+'.'+
+        num.substring(num.length-(4*i+3));
+        return (((sign)?'':'-') + 'Rp' + " "+ num + ',' + cents);
+        }
+    </script>
+    <script type="text/javascript">
+      function goBack() {
+          window.history.back();
+      }
+    </script>
   </body>
 </html>

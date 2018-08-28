@@ -107,6 +107,7 @@
                   <th>Rincian Log</th>
                   <th>Prorgress Log</th>
                   <th>Update Log</th>
+                  <th>File Pendukung</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -122,6 +123,18 @@
                 <td><?php echo $hasil->rincian_log ?></td>
                 <td><?php echo $hasil->progress_log."%" ?></td>
                 <td><?php echo $hasil->update_log ?></td>
+                <?php
+                $file = $hasil->file;
+                if($file == NULL){
+                ?>
+                 <td align="center"><label>-</label></td>
+                <?php
+                }else{
+                ?>
+                <td align="center"><a href="<?php echo base_url(); ?>Admin/download/<?php echo $hasil->file;?>"><i class="fas fa-file-download fa-lg"></i></a></td>
+                <?php
+                }
+                ?>
                 <td>
                   <center>
                      <a href="detail_log_admin?id_log=<?php echo $hasil->id_log;?>">

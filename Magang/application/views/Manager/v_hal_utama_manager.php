@@ -2,16 +2,12 @@
   <head>
     <?php
     function rupiah($angka){
-      
       $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
       return $hasil_rupiah;
-     
     }
     function uang($angka){
-      
       $hasil_rupiah = number_format($angka,2,',','.');
       return $hasil_rupiah;
-     
     }
     ?>
     <title>Magang</title>
@@ -107,7 +103,7 @@
         <div class="col-md-6 col-lg-6">
           <div class="widget-small primary coloured-icon"><i class="icon far fa-building fa-3x"></i>
             <div class="info">
-                <h4>Nilai Total Estimasi Pendapatan</h4>
+                <h4>Nilai Total Planning Pekerjaan <?php echo $search ?></h4>
                 <?php
                   foreach ($hasil_estimasi->result() as $row) {
                     ?>
@@ -122,7 +118,7 @@
         <div class="col-md-6 col-lg-6">
             <div class="widget-small primary coloured-icon"><i class="icon fas fa-user-check fa-3x"></i>
               <div class="info">
-                <h4>Nilai Total Pendapatan(SPK)</h4>
+                <h4>Nilai Total Pendapatan(SPK) <?php echo $search ?></h4>
                 <?php
                   foreach ($hasil_real->result() as $row) {
                     ?>
@@ -137,12 +133,12 @@
       
       <div class="row">
          <div class="col-md-6 col-lg-6">
-                <label><b>GRAFIK PERBANDINGAN ESTIMASI DENGAN PENDAPATAN (SPK)</b></label>
+                <label><b>GRAFIK PERBANDINGAN PLANNING DENGAN PENDAPATAN (SPK) <?php echo $search ?></b></label>
                 <div id="piechart" style="height: 35%;width: 100%;">
                   <?php
                       $data_string = '';    
                       foreach($data as $key=>$data){
-                      $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Estimasi Pendapatan";
+                      $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Planning Pekerjaan";
                       $warna = ($key == "tot_real")?"#76A7FA":"#e5e4e2";
                       $data_string .= "['$string'".",". $data ."],";
                       }
@@ -169,7 +165,7 @@
           </div>
 
            <div class="col-md-6 col-lg-6">
-                <label><b>GRAFIK PENDAPATAN PERSONAL IN CHARGE</b></label>
+                <label><b>GRAFIK PENDAPATAN PERSONAL IN CHARGE <?php echo $search ?></b></label>
                 <canvas id="myChart" style="background-color: white;">
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
                   <?php
@@ -240,7 +236,7 @@
       </div>
       <div class="row">
         <div class="col-md-6 col-lg-6">
-            <label><b>GRAFIK PERBANDINGAN PENDAPATAN PER DIVISI</b></label>
+            <label><b>GRAFIK PERBANDINGAN PENDAPATAN PER DIVISI <?php echo $search ?></b></label>
             <div id="asd" style="height: 35%;width: 100%;"></div>
         </div>
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -271,7 +267,7 @@
           }
         </script>
         <div class="col-md-6 col-lg-6">
-          <label><b>NILAI PENDAPATAN PERSONAL IN CHARGE</b></label>
+          <label><b>NILAI PENDAPATAN PERSONAL IN CHARGE <?php echo $search ?></b></label>
           <div style="height: 35%;width: 100%;background-color: white;">
                   <div class="table-responsive">
                   <table id="example" class="table table-striped">

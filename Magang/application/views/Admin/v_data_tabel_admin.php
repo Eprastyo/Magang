@@ -2,16 +2,15 @@
   <head>
     <?php
     function rupiah($angka){
-
       $hasil_rupiah = "" . number_format($angka,2,',','.');
       return $hasil_rupiah;
-
     }
     ?>
     <title>Magang</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
 
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url ('assets/docs/css/main.css')?>">
@@ -72,7 +71,7 @@
               Utama
               </a>
             </li>
-             <li>
+            <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/daily_report_admin')?>">
               <i class="icon fab fa-uikit"></i>
               Daily Report
@@ -154,12 +153,6 @@
                       </div>
                       <div class="form-group">
                         <div class="col-sm-10">
-                          <label for="usr">Kode Project</label>
-                          <input type="text" name="kode_project" class="form-control">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-sm-10">
                           <label for="usr">Nama Project</label>
                           <input type="text" name="nama_project" class="form-control">
                         </div>
@@ -177,7 +170,7 @@
                               <label for="usr">Type</label>
                               <select class="form-control" name="type">
                                 <option value="New">New</option>
-                                <option value="Existing">Existing</option>
+                                <option value="Existing">Maintenance</option>
                                 <option value="Upgrade">Upgrade</option>
                                 <option value="Downgrade">Downgrade</option>
                               </select>
@@ -204,24 +197,27 @@
                         </div>
                         <!-- <input type="text" name="keterangan" class="form-control"> -->
                       </div>
+
                       <div class="form-group">
                         <div class="col-sm-10">
-                          <label for="usr">Estimasi Pendapatan</label>
-                          <input type="number" name="est_pendapatan" class="form-control">
+                          <label for="usr">Nilai Planning Pekerjaan</label><br>
+                          <input type="text" name="est_pendapatan" id="num" class="form-control" onkeyup="document.getElementById('format').innerHTML = formatCurrency(this.value);"/><span id="format"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="col-sm-10">
+                          <label for="usr">Nama PIC Instansi</label>
+                          <input type="text" name="pic_instansi" class="form-control">
                         </div>
                       </div>
                       <div class="form-group">
                         <div class="col-sm-10">
-                          <label for="usr">Real Pendapatan</label>
-                          <input type="number" name="real_pendapatan" class="form-control">
+                          <label for="usr">No Telp PIC Instansi</label>
+                          <input type="text" name="no_telp" class="form-control">
                         </div>
                       </div>
-                      <div class="form-group">
-                        <div class="col-sm-5">
-                          <label for="usr">Tanggal</label>
-                          <input type="date" name="tanggal">
-                        </div>
-                      </div>
+                        <input type="hidden" name="tanggal" value="<?php echo date ("Y-m-d H:i:s")?>">
                       <div class="form-group">
                         <div class="col-sm-5">
                           <button type="submit" style="background-color: #03a9f4;color: white" name="upload" class="btn btn-default" >Tambah</button>
@@ -257,6 +253,12 @@
                         <div class="col-sm-10">
                           <label for="usr">Nama</label>
                           <input type="text" name="nama" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-10">
+                          <label for="usr">Email</label>
+                          <input type="email" name="email" class="form-control">
                         </div>
                       </div>
                       <div class="form-group">
@@ -302,27 +304,21 @@
           </div>
         </div>
 
-
-
         <div class="card-body" style="background-color: #f5f6fa">
           <div class="table-responsive">
             <table id="example" class="table table-striped table-bordered" style="width:100%;">
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Kode Project</th>
+                  <!-- <th>Kode Project</th> -->
                   <th>PIC</th>
                   <th>Nama Project</th>
                   <th>Instansi</th>
                   <th>Type</th>
                   <th>Divisi</th>
-                  <th>Pagu</th>
+                  <th>Planning Pekerjaan</th>
                   <th>Pendapatan (SPK)</th>
                   <th>Tanggal</th>
-                  <th>Status</th>
-                  <th>Info Pekerjaan</th>
-                  <th>No SPK</th>
-                  <th>Tanggal SPK</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -334,7 +330,6 @@
               ?>
               <tr>
                 <td><?php echo $no_urut++ ?></td>
-                <td><?php echo $hasil->kode_project ?></td>
                 <td><?php echo $hasil->nama_pic ?></td>
                 <td><?php echo $hasil->nama_project ?></td>
                 <td><?php echo $hasil->instansi ?></td>
@@ -342,14 +337,10 @@
                 <td><?php echo $hasil->divisi ?></td>
                 <td><?php echo rupiah($hasil->esti_pendapatan) ?></td>
                 <td><?php echo rupiah($hasil->real_pendapatan) ?></td>
-                <td><?php echo $hasil->tanggal ?></td>
-                <td><?php echo $hasil->status ?></td>
-                <td><?php echo $hasil->info ?></td>
-                <td><?php echo $hasil->no_spk ?></td>
-                <td><?php echo $hasil->tgl_spk ?></td>
+                <td><?php echo $hasil->tanggal?></td>
                 <td>
                   <center>
-                     <a href="<?php echo base_url('Admin/hapus_data_staff/'.$hasil->no);?>"><span class="fa fa-trash fa-lg" style="color: #e91e63"></span></a>
+                     <a href="hapus_data_staff?no=<?php echo $hasil->no;?>&nama_pic=<?php echo $hasil->nama_pic;?>&nama_project=<?php echo $hasil->nama_project?>&instansi=<?php echo $hasil->instansi?>"><span class="fa fa-trash fa-lg" style="color: #e91e63"></span></a>
                      <a href="<?php echo base_url('Admin/edit/'.$hasil->no);?>"><span class="fa fa-edit fa-lg" style="color: #03a9f4"></span></a>
                   </center>
                 </td>
@@ -369,10 +360,12 @@
     <script src="<?php echo base_url('assets/docs/js/popper.min.js')?>"></script>
     <script src="<?php echo base_url('assets/docs/js/bootstrap.min.js')?>"></script>
     <script src="<?php echo base_url('assets/docs/js/main.js')?>"></script>
+    <script src="<?php echo base_url('assets/docs/js/my.js')?>"></script>
     <script src="<?php echo base_url('assets/datatables/datatables.min.js')?>"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-    $('#example').DataTable();
+    $('#example').DataTable({
+    });
     });
     </script>
     <style type="text/css">
@@ -389,5 +382,22 @@
       float:right;
       }
     </style>
+    <script type="text/javascript">
+        function formatCurrency(num) {
+        num = num.toString().replace(/\$|\,/g,'');
+        if(isNaN(num))
+        num = "0";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num*100+0.50000000001);
+        cents = num%100;
+        num = Math.floor(num/100).toString();
+        if(cents<10)
+        cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+        num = num.substring(0,num.length-(4*i+3))+'.'+
+        num.substring(num.length-(4*i+3));
+        return (((sign)?'':'-') + 'Rp' + " "+ num + ',' + cents);
+        }
+    </script>
   </body>
 </html>

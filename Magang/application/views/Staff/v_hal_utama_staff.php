@@ -10,7 +10,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url ('assets/docs/css/main.css')?>">
     <!-- Font-icon css-->
@@ -43,7 +42,7 @@
     <aside class="app-sidebar">
       <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://scontent-sin6-2.xx.fbcdn.net/v/t1.0-9/14691064_1126674984081042_7683922444718356585_n.png?_nc_cat=0&oh=8da3a15e5c5227e8b686de6905046eec&oe=5BD20F44" alt="User Image" style="width: 25%;">
         <div>
-          <p class="app-sidebar__user-name"> <?php echo $this->session->userdata('email');?></p>
+          <p class="app-sidebar__user-name"> <?php echo $this->session->userdata('nama');?></p>
           <p class="app-sidebar__user-designation"><?php echo $this->session->userdata('status');?></p>
         </div>
       </div>
@@ -103,11 +102,10 @@
           </form>
       </div>
 
-      <div id="kiri">
-        <div style="width: 500px;">
+        <div id="kiri">
             <div class="widget-small primary coloured-icon"><i class="icon far fa-building fa-3x"></i>
               <div class="info">
-                <h4>Nilai Total Estimasi Pendapatan</h4>
+                <h4>Nilai Total Planning Pekerjaan <?php echo $search ?></h4>
                 <?php
                   foreach ($hasil_estimasi->result() as $row) {
                     ?>
@@ -119,10 +117,10 @@
             </div>
         </div>
 
-        <div style="width: 500px;">
-            <div class="widget-small primary coloured-icon"><i class="icon fas fa-user-check fa-3x"></i>
+      <div id="kanan">
+        <div class="widget-small primary coloured-icon"><i class="icon fas fa-user-check fa-3x"></i>
               <div class="info">
-                <h4>Nilai Total Pendapatan(SPK)</h4>
+                <h4>Nilai Total Pendapatan(SPK) <?php echo $search ?></h4>
                 <?php
                   foreach ($hasil_real->result() as $row) {
                     ?>
@@ -135,12 +133,14 @@
         </div>
       </div>
 
-      <div id="kanan">
-        <div id="piechart" style="width:500px; height: 300px;">
+
+      <div id="kiri">
+        <label><b><?php echo $this->session->userdata('nama');?>'s Graph <?php echo $search ?></b></label>
+        <div id="piechart" style="width:100%;height: 45%;">
           <?php
               $data_string = '';
               foreach($data as $key=>$data){
-              $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Estimasi Pendapatan";
+              $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Planning Pekerjaan";
               $warna = ($key == "tot_real")?"#76A7FA":"#e5e4e2";
               $data_string .= "['$string'".",". $data ."],";
               }
@@ -165,6 +165,37 @@
           </script>
         </div>
       </div>
+      <div id="kanan">
+        <label><b>GRAFIK PERBANDINGAN ESTIMASI DENGAN PENDAPATAN (SPK) <?php echo $search ?></b></label>
+        <div id="piechart_tot" style="width: 100%;height: 45%;">
+                  <?php
+                      $data_string = '';    
+                      foreach($data_tot as $key=>$data_total){
+                      $string = ($key == "tot_real")?"Total Pendapatan SPK":"Total Planning Pekerjaan";
+                      $warna = ($key == "tot_real")?"#76A7FA":"#e5e4e2";
+                      $data_string .= "['$string'".",". $data_total ."],";
+                      }
+                  ?>
+                  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                  <script type="text/javascript">
+                    google.charts.load('current', {'packages':['corechart']});
+                    google.charts.setOnLoadCallback(drawChart);
+                    function drawChart() {
+                      var data = google.visualization.arrayToDataTable([
+                          ['Task', 'Hours per Day'],
+                          <?php
+                          echo $data_string;
+                          ?>
+                      ]);
+                      var options = {
+                        colors: ['#ff1744', '#00e676'],
+                      };
+                      var chart = new google.visualization.PieChart(document.getElementById('piechart_tot'));
+                      chart.draw(data,options);
+                    }
+                  </script>
+                </div>
+      </div>
     </main>
     <!-- Essential javascripts for application to work-->
     <script src="<?php echo base_url('assets/docs/js/jquery-3.2.1.min.js')?>"></script>
@@ -180,14 +211,12 @@
     <style type="text/css">
       #kiri
       {
-      width:50%;
-      height:100px;
+      width:45%;
       float:left;
       }
       #kanan
       {
-      width:50%;
-      height:100px;
+      width:45%;
       float:right;
       }
     </style>

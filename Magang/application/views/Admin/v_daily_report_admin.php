@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url ('assets/docs/css/main.css')?>">
     <!-- Font-icon css-->
@@ -126,16 +125,16 @@
                 <td><?php echo $hasil->instansi ?></td>
                 <td><?php echo $hasil->progres."%" ?></td>
                 <?php
-                $tgl_akhir  = new DateTime(date(".".$hasil->tanggal_update.""));
+                $tgl_akhir  = new DateTime(date(".".$hasil->tanggal.""));
                 $tgl_hitung = new DateTime(date("Y-m-d H:i:s"));
                 $difference = $tgl_hitung->diff($tgl_akhir);
                 if($difference->days >= 4){
                 ?>
-                  <td><label style="background-color: #eb4d4b;font: white;"><?php echo $hasil->tanggal_update ?></label></td>
+                  <td><label style="background-color: #eb4d4b;font: white;"><?php echo $hasil->tanggal ?></label></td>
                 <?php
                 }else{
                 ?>
-                  <td><label style="background-color: #badc58;font: white;"><?php echo $hasil->tanggal_update ?></label></td>
+                  <td><label style="background-color: #badc58;font: white;"><?php echo $hasil->tanggal ?></label></td>
                 <?php
                 }
                 ?>
@@ -170,7 +169,15 @@
     <script src="<?php echo base_url('assets/datatables/datatables.min.js')?>"></script>
     <script type="text/javascript">
     $(document).ready(function() {
-    $('#example').DataTable();
+    $('#example').DataTable(
+      {
+        "order": [[4, "desc" ]],
+        "autoWidth": false,
+        "pageLength": 20,
+        "bLengthChange": false,
+        "bInfo" : false,
+        "dom": '<"toolbar">frtip'
+    });
     });
     </script>
     <style type="text/css">

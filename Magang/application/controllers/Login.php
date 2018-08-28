@@ -47,14 +47,13 @@ class Login extends CI_Controller {
 			'password' => $password,
 			'level' => $level2
 			)){
-
+		
 		$cek = $this->M_login->cek_login("t_data_user",$where)->num_rows();
 			if($cek > 0){
-				$data = $this->M_data->data_user($username);
 				$data_session = array(
 					'nama' => $username,
 					'password' => $password,
-					'status' => "staff",
+					'status' => "staff", 
 					);
 				$this->session->set_userdata($data_session);
 				redirect(base_url("Staff/staff"));

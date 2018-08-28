@@ -16,6 +16,7 @@ class Staff extends CI_Controller{
 			$data['hasil_estimasi'] = $this->M_data->jumlah_estimasi_staff($tahun);
 			$data['hasil_real'] = $this->M_data->jumlah_real_staff($tahun);
 			$data['search'] = $tahun;
+		    $data['data_tot'] = $this->M_data->grafik_pie($tahun);
 			$this->load->view('Staff/v_hal_utama_staff',$data);
 		}else{
 			redirect(base_url('Login'));
@@ -84,13 +85,12 @@ class Staff extends CI_Controller{
 
 		$data = array(
 			'progres' => $progres,
-			'tanggal_update' => $tanggal_update,
+			'tanggal' => $tanggal_update,
 		);
 
         $config['upload_path']          = './uploads/';
         $config['allowed_types']        = '*';
         $config['remove_spaces']		= TRUE;
-		// $config['overwrite']			= TRUE;
         $config['max_size']             = '2048000';
         $config['max_filename']			= '0';
 
@@ -110,11 +110,20 @@ class Staff extends CI_Controller{
 		$this->M_data->update_data($where,$data,'t_data_utama');
 		$this->M_data->tambah_log ($data_log,'t_log');
 
-		$email   ="dodih127@gmail.com";
-		$subject ="Time Excelindo";
-		$message ="Test Boy";
-		$this->sendEmail($email,$subject,$message);
+		$email   = $this->M_data->data_user();
+		$subject = "Daily Report";
 
+		$mail_data['subject']  = 'Daily Report';
+		$mail_data['nama_pic'] =  $this->input->post('nama_pic');
+		$mail_data['tanggal']  =  $this->input->post('tgl_update');
+		$mail_data['nama_project'] = $this->input->post('nama_project');
+		$mail_data['instansi']	= $this->input->post('instansi');
+		$mail_data['rincian'] 	= $this->input->post('rincian');
+		$mail_data['progres']	= $this->input->post('progres');		
+		$mail_data['description'] = "Update Progres";
+
+		$message = $this->load->view('Staff/v_email_page', $mail_data, true);
+		$this->sendEmail($email,$subject,$message);
 		redirect('Staff/daily_report_staff');
 	}
 	
@@ -128,18 +137,9 @@ class Staff extends CI_Controller{
     public function download($filename = NULL){		
   		$file = $this->input->get('file');
   		$data = array('file' => $file);		
-		// force_download('$data',NULL);
-		// force_download('uploads/1.JPG',NULL);
-
-		// $this->load->helper('download');
-	    // read file contents
-	    // $hasil = file_get_contents(base_url('/uploads/'.NULL));
-	    // force_download(NULL, $hasil);
-
 	    $this->load->helper('download');
 	    $data = file_get_contents(base_url('/uploads/'.$filename));
-	    force_download($filename, $data);
-		
+	    force_download($filename, $data);	
 	}
 	public function sendEmail($email,$subject,$message){
 		    $config = Array(
@@ -165,6 +165,21 @@ class Staff extends CI_Controller{
 		         }else{
 		         show_error($this->email->print_debugger());
 		}
-		}
+	}
+
+		public function test_email(){
+			$email   = "prastyo050497@gmail.com";
+			$subject = "Daily Report";
+			
+			$mail_data['subject'] = 'Daily Report';
+			$mail_data['description'] = "Update Progres";
+
+			$message = $this->load->view('Staff/v_email_page', $mail_data, true);
+			$this->sendEmail($email,$subject,$message);
+		} 
+
+	function coba(){
+		$this->load->view('Staff/v_email_page');
+	}
 }
 ?>

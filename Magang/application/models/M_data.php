@@ -16,9 +16,10 @@ class M_data extends CI_Model{
 		$sql = "SELECT * FROM t_data_utama where nama_pic='$nama'";
 		return $this->db->query($sql);
 	}
-	function data_user($username){
-		$sql = "SELECT email FROM t_data_user where nama='$username'";
-		return $this->db->query($sql);
+	function data_user(){
+		$nama = $this->session->userdata('nama');
+		$query = $this->db->select('email')->from('t_data_user')->where('nama', $nama)->get();
+    	return $query->row()->email;
 	}
 	function tampil_update_log($where,$table){
 		return $this->db->get_where($table,$where);

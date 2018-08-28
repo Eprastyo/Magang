@@ -110,12 +110,16 @@
         <div class="card-body" style="background-color: #f5f6fa">
            <div class="form-group">
                 <div class="col-sm-7">
-                    <label for="usr"><b>Detail Pekerjaan</b></label>
-                    <script src="<?php echo base_url('assets/docs/tinymce/js/tinymce.min.js')?>"></script>
-                    <script>tinymce.init({ selector:'textarea' });</script>
-                    <textarea name="rincian" class="form-control"><?php echo $hasil->detail_rincian ?></textarea>
+                    <label for="usr"><b>Detail Pekerjaan</b></label><br>
+                    <label><?php echo $hasil->rincian_log ?></label>
                 </div>
-           </div>            
+           </div>
+           <div class="form-group">
+                <div class="col-sm-7">
+                    <label for="usr"><b>Komentar Manager</b></label><br>
+                    <label><?php echo $hasil->komentar ?></label>
+                </div>
+           </div>              
         </div>
         <?php
           }

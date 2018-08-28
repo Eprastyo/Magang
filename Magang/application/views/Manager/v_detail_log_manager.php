@@ -82,13 +82,10 @@
         <div class="card-body" style="background-color: #f5f6fa">
            <div class="form-group">
                 <div class="col-sm-7">
-                    <label for="usr">Rincian Pekerjaan</label>
+                    <label for="usr"><b>Rincian Pekerjaan</b></label>
                     </br>
                     </br>
                     <label><?php echo $hasil->rincian_log ?></label>
-                   <!--  <script src="<?php echo base_url('assets/docs/tinymce/js/tinymce.min.js')?>"></script>
-                    <script>tinymce.init({ selector:'textarea' });</script>
-                    <textarea name="rincian" class="form-control"><?php echo $hasil->detail_rincian ?></textarea> -->
                 </div>
            </div>            
            <div class="form-group">
@@ -109,6 +106,7 @@
                       </div>
                       <div class="modal-body">
                           <form action="<?php echo base_url(). 'Manager/tambah_komentar'; ?>" method="post">
+                             
                              <div class="form-group">
                               <?php
                               foreach ($data_log as $hasil) {
@@ -125,8 +123,8 @@
                               </div>
 
                               <div class="form-group">
-                                        <button class="btn btn-default" type="submit" style="color: white;background-color: #03a9f4"><i class="far fa-save fa-2x"></i>
-                                        </button>
+                                <button class="btn btn-default" type="submit" style="color: white;background-color: #03a9f4"><i class="far fa-save fa-2x"></i>
+                                </button>
                               </div>
                           </form>
                       </div>

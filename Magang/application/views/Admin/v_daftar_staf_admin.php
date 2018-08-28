@@ -2,10 +2,8 @@
   <head>
     <?php
     function rupiah($angka){
-      
       $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
       return $hasil_rupiah;
-     
     }
     ?>
     <title>Magang</title>
@@ -66,8 +64,14 @@
           </a>
           <ul class="treeview-menu">
             <li>
-              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel')?>">
+              <a class="treeview-item" href="<?php echo base_url('Admin/data_tabel_admin')?>">
                 <i class="icon fab fa-uikit"></i>Utama</a>
+            </li>
+            <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/daily_report_admin')?>">
+              <i class="icon fab fa-uikit"></i>
+              Daily Report
+              </a>
             </li>
             <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
@@ -101,7 +105,7 @@
               <button class="btn btn-default" type="button" data-toggle="modal" data-target="#tambah-staff" style="color: white;background-color: #03a9f4"><i class="icon fas fa-user-plus"> </i>Tambah Staff
               </button>
           </form>
-          <form method="get" action="data_tabel">
+          <form method="get" action="data_tabel_admin">
               <button class="btn btn-default" type="submit" style="color: white;background-color: #03a9f4"><i class="icon fas fa-user-plus"> </i>Lihat Data
               </button>
           </form>
@@ -236,6 +240,12 @@
                       </div>
                       <div class="form-group">
                         <div class="col-sm-10">
+                          <label for="usr">Email</label>
+                          <input type="email" name="email" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-10">
                           <label for="usr">Password</label>
                           <input type="password" name="password" class="form-control">
                         </div>
@@ -284,6 +294,7 @@
                 <tr>
                   <th>No</th>
                   <th>Nama</th>
+                  <th>Email</th>
                   <th>Jabatan</th>
                   <th>Aksi</th>
                 </tr>
@@ -297,11 +308,12 @@
               <tr>
                 <td><?php echo $no++ ?></td>
                 <td><?php echo $hasil->nama ?></td>
+                <td><?php echo $hasil->email ?></td>
                 <td><?php echo $hasil->level ?></td>
                 <td>
                   <center>
                      <a href="<?php echo base_url('Admin/hapus_staff/'.$hasil->id_user);?>"><span class="fa fa-trash fa-lg" style="color: #e91e63"></span></a>
-                     <!-- <a href="<?php echo base_url('Admin/edit_staff/'.$hasil->id_user);?>"><span class="fa fa-edit fa-lg" style="color: #03a9f4"></span></a> -->
+                     <a href="<?php echo base_url('Admin/edit_staff/'.$hasil->id_user);?>"><span class="fa fa-edit fa-lg" style="color: #03a9f4"></span></a>
                   </center>
                 </td>
               </tr>

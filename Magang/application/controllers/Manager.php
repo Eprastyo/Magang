@@ -64,5 +64,31 @@ class Manager extends CI_Controller{
 		$this->M_data->input_data_komen($where,'t_log',$data);
 		redirect('Manager/daily_report_manager');
 	}
+
+	public function sendEmail($email,$subject,$message){
+		    $config = Array(
+		      'protocol' => 'smtp',
+		      'smtp_host' => 'ssl://smtp.googlemail.com',
+		      'smtp_port' => 465,
+		      'smtp_user' => 'eekoprastyoo@gmail.com', 
+		      'smtp_pass' => 'Becakgaul54', 
+		      'mailtype' => 'html',
+		      'charset' => 'iso-8859-1',
+		      'wordwrap' => TRUE
+		    );
+		       $this->load->library('email', $config);
+		       $this->email->set_newline("\r\n");
+		       $this->email->from('eekoprastyoo@gmail.com');
+		       $this->email->to($email);
+		       $this->email->subject($subject);
+		       $this->email->message($message);
+		       // $this->email->attach('C:\xampp\htdocs\Magang\uploads\asd.jpg');
+		  
+		       if($this->email->send()){
+		          echo 'Email send.';
+		         }else{
+		         show_error($this->email->print_debugger());
+		}
+	}
 }
 ?>

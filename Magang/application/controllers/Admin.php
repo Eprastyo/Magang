@@ -12,6 +12,7 @@ class Admin extends CI_Controller{
 		    $data['hasil'] = $this->M_data->grafik($tahun);
 		    $data['data'] = $this->M_data->grafik_pie($tahun);
 			$data['hasil_estimasi'] = $this->M_data->jumlah_estimasi($tahun);
+			$data['hasil_tabel'] = $this->M_data->tabel_grafik($tahun);
 			$data['hasil_real'] = $this->M_data->jumlah_real($tahun);
 			$data['jml_new'] = $this->M_data->jumlah_new($tahun);
 			$data['jml_exist'] = $this->M_data->jumlah_exist($tahun);
@@ -25,9 +26,17 @@ class Admin extends CI_Controller{
 			redirect(base_url('Login'));
 		}
 	}
-	public function hapus_data_staff($no){
+	public function hapus_data_staff(){
+		$no = $this->input->get('no');
+		$nama_pic = $this->input->get('nama_pic');
+		$nama_project = $this->input->get('nama_project');
+		$instansi = $this->input->get('instansi');
+
     	$where = array('no' => $no);
+    	$where_data = array('nama_pic' => $nama_pic ,'nama_project' => $nama_project, 'instansi' => $instansi);
+
     	$this->M_data->hapus_data($where,'t_data_utama');
+    	$this->M_data->hapus_data($where_data,'t_log');
     	redirect('Admin/data_tabel_admin');
     }
     public function hapus_prog_utama(){
@@ -39,7 +48,7 @@ class Admin extends CI_Controller{
 
     	$where = array('no' => $no,'nama_pic' => $nama_pic,'nama_project' => $nama_project,'instansi' => $instansi,'progres' => $progres,);
     	$this->M_data->hapus_data($where,'t_data_utama');
-    	redirect('Admin/daily_report');
+    	redirect('Admin/daily_report_admin');
     }
     public function hapus_log(){
     	$id_log = $this->input->get('id_log');
@@ -152,24 +161,24 @@ class Admin extends CI_Controller{
 
     function tambah_data_utama(){
 		$nama_pic = $this->input->post('nama');
-		$kode_project = $this->input->post('kode_project');
 		$nama_project = $this->input->post('nama_project');
 		$instansi = $this->input->post('instansi');
 		$type = $this->input->post('type');
 		$divisi = $this->input->post('divisi');
 		$est_pendapatan = $this->input->post('est_pendapatan');
-		$real_pendapatan = $this->input->post('real_pendapatan');
 		$tanggal = $this->input->post('tanggal');
+		$pic_instansi = $this->input->post('pic_instansi');
+		$no_telp = $this->input->post('no_telp');
 		$data = array(
 			'nama_pic' => $nama_pic,
-			'kode_project' => $kode_project,
 			'nama_project' => $nama_project,
 			'instansi' => $instansi,
 			'type' => $type,
 			'divisi' => $divisi,
 			'esti_pendapatan' => $est_pendapatan,
-			'real_pendapatan' => $real_pendapatan,
 			'tanggal' => $tanggal,
+			'pic_instansi' => $pic_instansi,
+			'no_telp' => $no_telp,
 			);
 
 		$this->M_data->input_data($data,'t_data_utama');
@@ -373,13 +382,15 @@ class Admin extends CI_Controller{
 
 	function tambah_data_staff(){
 		$nama_staff = $this->input->post('nama');
+		$email = $this->input->post('email');
 		$password = $this->input->post('password');
 		$level = $this->input->post('level');
 		$sel_nama = $this->M_data->seleksi_nama();
 		$data = array(
 			'nama' => $nama_staff,
 			'password' => $password,
-			'level' => $level
+			'level' => $level,
+			'email' => $email
 			);
 		foreach ($sel_nama as $hasil) {
 			$cek = $hasil->nama;
@@ -495,8 +506,9 @@ class Admin extends CI_Controller{
 		$divisi = $this->input->post('divisi');
 		$est_pendapatan = $this->input->post('est_pendapatan');
 		$real_pendapatan = $this->input->post('real_pendapatan');
-		$tanggal = $this->input->post('tanggal');
-
+		$pic_instansi = $this->input->post('pic_instansi');
+		$no_telp = $this->input->post('no_telp');
+		
 		$data = array(
 			'no' => $no,
 			'kode_project' => $kode_project,
@@ -507,7 +519,8 @@ class Admin extends CI_Controller{
 			'divisi' => $divisi,
 			'esti_pendapatan' => $est_pendapatan,
 			'real_pendapatan' => $real_pendapatan,
-			'tanggal' => $tanggal
+			'pic_instansi' => $pic_instansi,
+			'no_telp' => $no_telp,
 		);
 
 		$where = array(
@@ -579,11 +592,13 @@ class Admin extends CI_Controller{
 	}
 
 	function update_staff(){
-		$nama = $this->input->post('nama');
 		$id_user = $this->input->post('id_user');
+		$nama = $this->input->post('nama');
+		$email = $this->input->post('email');
 		$data = array(
 			'id_user' => $id_user,
-			'nama' => $nama
+			'nama' => $nama,
+			'email' => $email
 		);
 
 		$where = array(
@@ -676,11 +691,11 @@ class Admin extends CI_Controller{
 		$this->load->view('Admin/v_detail_log_admin',$t);
     }
     public function setemail(){
-		$email   ="dodih127@gmail.com";
+		$email   ="prastyo050497@gmail.com";
 		$subject ="Time Excelindo";
-		$message ="Test Boy";
+		$message ="Test";
 		$this->sendEmail($email,$subject,$message);
-		}
+	}
 
 	public function sendEmail($email,$subject,$message){
 		    $config = Array(
@@ -699,13 +714,24 @@ class Admin extends CI_Controller{
 		       $this->email->to($email);
 		       $this->email->subject($subject);
 		       $this->email->message($message);
-		       $this->email->attach('C:\xampp\htdocs\Magang\uploads\asd.jpg');
+		       // $this->email->attach('C:\xampp\htdocs\Magang\uploads\asd.jpg');
 		  
 		       if($this->email->send()){
 		          echo 'Email send.';
 		         }else{
 		         show_error($this->email->print_debugger());
 		}
-		}
+	}
+	
+	public function download($filename = NULL){		
+  		$file = $this->input->get('file');
+  		$data = array('file' => $file);		
+	    $this->load->helper('download');
+	    $data = file_get_contents(base_url('/uploads/'.$filename));
+	    force_download($filename, $data);	
+	}
+	function coba(){
+		$this->load->view('coba');
+	}
 }
 

@@ -72,6 +72,12 @@
                 <i class="icon fab fa-uikit"></i>Utama</a>
             </li>
             <li>
+              <a class="treeview-item" href="<?php echo base_url('Admin/daily_report_admin')?>">
+              <i class="icon fab fa-uikit"></i>
+              Daily Report
+              </a>
+            </li>
+            <li>
               <a class="treeview-item" href="<?php echo base_url('Admin/data_department')?>">
                 <i class="icon fab fa-uikit"></i>Department</a>
             </li>
@@ -107,6 +113,12 @@
                       <div class="col-sm-5">
                         <label for="usr">Nama</label>
                         <input type="text" name="nama" value="<?php echo $u->nama ?>" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-5">
+                        <label for="usr">Email</label>
+                        <input type="text" name="email" value="<?php echo $u->email ?>" class="form-control">
                       </div>
                     </div>
                     <div class="form-group">
