@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 28, 2018 at 04:37 PM
+-- Generation Time: Aug 29, 2018 at 04:32 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -25,21 +25,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `files`
---
-
-CREATE TABLE `files` (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `file_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
-  `status` enum('1','0') COLLATE utf8_unicode_ci NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `t_data_user`
 --
 
@@ -57,9 +42,9 @@ CREATE TABLE `t_data_user` (
 
 INSERT INTO `t_data_user` (`id_user`, `nama`, `password`, `email`, `level`) VALUES
 (10, 'Dodi', '123', 'dodih127@gmail.com', 'staff'),
-(11, 'Ardi', '123', '', 'staff'),
-(12, 'admin', 'admin', '', 'admin'),
-(15, 'manager', 'manager', '', 'manager'),
+(11, 'Ardi', '123', 'dodih1227@gmail.com', 'staff'),
+(12, 'admin', 'admin', 'dodih1227@gmail.com', 'admin'),
+(15, 'manager', 'manager', 'ekoprastyo697@gmail.com', 'manager'),
 (19, 'prast', 'asd123', 'prastyo050497@gmail.com', 'staff');
 
 -- --------------------------------------------------------
@@ -78,6 +63,7 @@ CREATE TABLE `t_data_utama` (
   `divisi` varchar(100) NOT NULL,
   `esti_pendapatan` int(20) NOT NULL,
   `real_pendapatan` int(20) NOT NULL,
+  `email_group` varchar(255) NOT NULL,
   `tanggal` datetime NOT NULL,
   `progres` int(10) NOT NULL,
   `pic_instansi` varchar(30) NOT NULL,
@@ -88,8 +74,9 @@ CREATE TABLE `t_data_utama` (
 -- Dumping data for table `t_data_utama`
 --
 
-INSERT INTO `t_data_utama` (`no`, `kode_project`, `nama_pic`, `nama_project`, `instansi`, `type`, `divisi`, `esti_pendapatan`, `real_pendapatan`, `tanggal`, `progres`, `pic_instansi`, `no_telp`) VALUES
-(87, '', 'Dodi', 'Software', 'Polindra', 'New', 'Software Development ', 250000000, 150000000, '2018-08-28 15:08:01', 0, 'ecos', '081');
+INSERT INTO `t_data_utama` (`no`, `kode_project`, `nama_pic`, `nama_project`, `instansi`, `type`, `divisi`, `esti_pendapatan`, `real_pendapatan`, `email_group`, `tanggal`, `progres`, `pic_instansi`, `no_telp`) VALUES
+(123, '', 'Dodi', 'Internet', 'Polindra', 'New', 'ISP (Internet Service Provider)', 300000000, 200000000, 'dodih1227@gmail.com,ekoprastyo697@gmail.com,prastyo050497@gmail.com', '2018-08-29 15:29:55', 10, 'ecos', '321'),
+(124, '', 'Ardi', 'Sotware', 'Instansi B', 'New', 'Software Development ', 250000000, 175000000, 'dodih127@gmail.com,dodih1227@gmail.com,ekoprastyo697@gmail.com', '2018-08-29 15:45:41', 20, 'asd', '321');
 
 -- --------------------------------------------------------
 
@@ -115,23 +102,16 @@ INSERT INTO `t_department` (`id_department`, `nama_department`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `t_divisi`
+-- Table structure for table `t_group_mail`
 --
 
-CREATE TABLE `t_divisi` (
-  `id_divisi` int(10) NOT NULL,
-  `nama_divisi` varchar(50) NOT NULL
+CREATE TABLE `t_group_mail` (
+  `id_group` int(11) NOT NULL,
+  `nama_pic` varchar(30) NOT NULL,
+  `nama_project` varchar(30) NOT NULL,
+  `instansi` varchar(30) NOT NULL,
+  `email_group` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `t_divisi`
---
-
-INSERT INTO `t_divisi` (`id_divisi`, `nama_divisi`) VALUES
-(1, 'Departemen Software Development'),
-(2, 'Departemen ISP (Internet Service Provider)'),
-(3, 'Departemen BDC (Bisnis Development Consultant)'),
-(4, 'Departemen Infrastruktur');
 
 -- --------------------------------------------------------
 
@@ -152,14 +132,18 @@ CREATE TABLE `t_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Indexes for dumped tables
+-- Dumping data for table `t_log`
 --
 
+INSERT INTO `t_log` (`id_log`, `nama_project`, `instansi`, `nama_pic`, `rincian_log`, `progress_log`, `update_log`, `komentar`, `file`) VALUES
+(82, 'Internet', 'Polindra', 'Dodi', '<p>Awal Proposal</p>', 10, '2018-08-29 15:29:55', '', ''),
+(83, 'Sotware', 'Instansi B', 'Ardi', '<p>Masih ada Kendala bos</p>', 10, '2018-08-29 15:31:03', '<p>Apa kendalanya ?</p>', ''),
+(84, 'Sotware', 'Instansi B', 'Ardi', '<p>Terbaru</p>', 10, '2018-08-29 15:44:24', '', ''),
+(85, 'Sotware', 'Instansi B', 'Ardi', '', 20, '2018-08-29 15:45:41', '', '');
+
 --
--- Indexes for table `files`
+-- Indexes for dumped tables
 --
-ALTER TABLE `files`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `t_data_user`
@@ -180,10 +164,10 @@ ALTER TABLE `t_department`
   ADD PRIMARY KEY (`id_department`);
 
 --
--- Indexes for table `t_divisi`
+-- Indexes for table `t_group_mail`
 --
-ALTER TABLE `t_divisi`
-  ADD PRIMARY KEY (`id_divisi`);
+ALTER TABLE `t_group_mail`
+  ADD PRIMARY KEY (`id_group`);
 
 --
 -- Indexes for table `t_log`
@@ -196,12 +180,6 @@ ALTER TABLE `t_log`
 --
 
 --
--- AUTO_INCREMENT for table `files`
---
-ALTER TABLE `files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `t_data_user`
 --
 ALTER TABLE `t_data_user`
@@ -211,7 +189,7 @@ ALTER TABLE `t_data_user`
 -- AUTO_INCREMENT for table `t_data_utama`
 --
 ALTER TABLE `t_data_utama`
-  MODIFY `no` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `no` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT for table `t_department`
@@ -220,16 +198,16 @@ ALTER TABLE `t_department`
   MODIFY `id_department` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT for table `t_divisi`
+-- AUTO_INCREMENT for table `t_group_mail`
 --
-ALTER TABLE `t_divisi`
-  MODIFY `id_divisi` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `t_group_mail`
+  MODIFY `id_group` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `t_log`
 --
 ALTER TABLE `t_log`
-  MODIFY `id_log` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=338;
+  MODIFY `id_log` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

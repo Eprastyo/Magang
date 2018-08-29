@@ -36,6 +36,7 @@ class Admin extends CI_Controller{
     	$where_data = array('nama_pic' => $nama_pic ,'nama_project' => $nama_project, 'instansi' => $instansi);
 
     	$this->M_data->hapus_data($where,'t_data_utama');
+    	$this->M_data->hapus_data($where_data,'t_group_mail');
     	$this->M_data->hapus_data($where_data,'t_log');
     	redirect('Admin/data_tabel_admin');
     }
@@ -108,9 +109,10 @@ class Admin extends CI_Controller{
 
     function data_tabel_admin(){
     	if($this->session->userdata('status') == "admin"){
-			$data['t_data_utama'] = $this->M_data->tampil_data()->result();
+			$data['t_data_utama'] = $this->M_data->get_data('t_data_utama')->result();
 			$data['nama_staff'] = $this->M_data->tampil_nama_staff()->result();
 			$data['nama_dept'] = $this->M_data->tampil_dept()->result();
+			$data['mail_data'] = $this->M_data->get_data('t_data_user')->result();
 			$this->load->view('Admin/v_data_tabel_admin',$data);
 		}
 		else{
@@ -120,7 +122,7 @@ class Admin extends CI_Controller{
 
     function monitoring_kerja(){
     	if($this->session->userdata('status') == "admin"){
-			$data['t_data_utama'] = $this->M_data->tampil_data()->result();
+			$data['t_data_utama'] = $this->M_data->get_data('t_data_utama')->result();
 			$this->load->view('Admin/v_tabel_monitoring_admin',$data);
 		}
 		else{
@@ -169,6 +171,10 @@ class Admin extends CI_Controller{
 		$tanggal = $this->input->post('tanggal');
 		$pic_instansi = $this->input->post('pic_instansi');
 		$no_telp = $this->input->post('no_telp');
+
+		$email = $this->input->post('group_mail');
+		$data_email = implode(",",$email);
+
 		$data = array(
 			'nama_pic' => $nama_pic,
 			'nama_project' => $nama_project,
@@ -179,6 +185,7 @@ class Admin extends CI_Controller{
 			'tanggal' => $tanggal,
 			'pic_instansi' => $pic_instansi,
 			'no_telp' => $no_telp,
+			'email_group' => $data_email,
 			);
 
 		$this->M_data->input_data($data,'t_data_utama');

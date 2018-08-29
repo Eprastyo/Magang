@@ -62,10 +62,23 @@ class Manager extends CI_Controller{
 		$where = array('id_log' => $id_log);
 
 		$this->M_data->input_data_komen($where,'t_log',$data);
+
+		$email   = $this->M_data->data_user();
+		$subject = "Komentar Manager";
+
+		$mail_data['subject']  = 'Komentar Manager';
+		$mail_data['all_log']  =  $this->M_data->kirim_log()->result();
+		$mail_data['nama_pic'] =  $this->input->post('nama_pic');
+		$mail_data['description'] = "Komentar Manager";
+		$mail_data['update_by'] = $this->session->userdata('nama');
+		$message = $this->load->view('Staff/v_email_page_manager',$mail_data,true);
+		$this->sendEmail($email,$subject,$message);
+
 		redirect('Manager/daily_report_manager');
 	}
 
-	public function sendEmail($email,$subject,$message){
+	function sendEmail($email,$subject,$message){
+		    $email_group = $this->M_data->send_progres();
 		    $config = Array(
 		      'protocol' => 'smtp',
 		      'smtp_host' => 'ssl://smtp.googlemail.com',
@@ -76,10 +89,12 @@ class Manager extends CI_Controller{
 		      'charset' => 'iso-8859-1',
 		      'wordwrap' => TRUE
 		    );
+
 		       $this->load->library('email', $config);
 		       $this->email->set_newline("\r\n");
 		       $this->email->from('eekoprastyoo@gmail.com');
 		       $this->email->to($email);
+		       $this->email->cc($email_group);
 		       $this->email->subject($subject);
 		       $this->email->message($message);
 		       // $this->email->attach('C:\xampp\htdocs\Magang\uploads\asd.jpg');
@@ -90,5 +105,4 @@ class Manager extends CI_Controller{
 		         show_error($this->email->print_debugger());
 		}
 	}
-}
 ?>

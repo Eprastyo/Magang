@@ -74,7 +74,7 @@ class Staff extends CI_Controller{
 		$this->load->view('Staff/v_update_prog_staff',$data);
 	}
 
-	public function tambah_log_staff(){ 
+	public function tambah_log_staff(){
 		$nama_pic = $this->input->post('nama_pic');
 		$nama_project = $this->input->post('nama_project');
 		$instansi = $this->input->post('instansi');
@@ -88,6 +88,7 @@ class Staff extends CI_Controller{
 			'tanggal' => $tanggal_update,
 		);
 
+		
         $config['upload_path']          = './uploads/';
         $config['allowed_types']        = '*';
         $config['remove_spaces']		= TRUE;
@@ -105,6 +106,8 @@ class Staff extends CI_Controller{
           
 		$data_log = array('nama_pic' => $nama_pic,'nama_project' => $nama_project,'instansi' => $instansi,'rincian_log' => $rincian_log,'progress_log' => $progres,'update_log' => $tanggal_update,'file' => $pict);
 
+		$where_log = array('nama_pic' => $nama_pic,'nama_project' => $nama_project,'instansi' =>$instansi);
+
 		$where = array(	'nama_pic' => $nama_pic,'nama_project' => $nama_project,'instansi' => $instansi);
 
 		$this->M_data->update_data($where,$data,'t_data_utama');
@@ -114,15 +117,12 @@ class Staff extends CI_Controller{
 		$subject = "Daily Report";
 
 		$mail_data['subject']  = 'Daily Report';
+		$mail_data['all_log']  =  $this->M_data->kirim_log()->result();
 		$mail_data['nama_pic'] =  $this->input->post('nama_pic');
 		$mail_data['tanggal']  =  $this->input->post('tgl_update');
-		$mail_data['nama_project'] = $this->input->post('nama_project');
-		$mail_data['instansi']	= $this->input->post('instansi');
-		$mail_data['rincian'] 	= $this->input->post('rincian');
-		$mail_data['progres']	= $this->input->post('progres');		
 		$mail_data['description'] = "Update Progres";
-
-		$message = $this->load->view('Staff/v_email_page', $mail_data, true);
+		$mail_data['update_by'] = $this->session->userdata('nama');
+		$message = $this->load->view('Staff/v_email_page',$mail_data,true);
 		$this->sendEmail($email,$subject,$message);
 		redirect('Staff/daily_report_staff');
 	}
@@ -142,6 +142,7 @@ class Staff extends CI_Controller{
 	    force_download($filename, $data);	
 	}
 	public function sendEmail($email,$subject,$message){
+		    $email_group = $this->M_data->send_progres();
 		    $config = Array(
 		      'protocol' => 'smtp',
 		      'smtp_host' => 'ssl://smtp.googlemail.com',
@@ -152,10 +153,12 @@ class Staff extends CI_Controller{
 		      'charset' => 'iso-8859-1',
 		      'wordwrap' => TRUE
 		    );
+
 		       $this->load->library('email', $config);
 		       $this->email->set_newline("\r\n");
 		       $this->email->from('eekoprastyoo@gmail.com');
 		       $this->email->to($email);
+		       $this->email->cc($email_group);
 		       $this->email->subject($subject);
 		       $this->email->message($message);
 		       // $this->email->attach('C:\xampp\htdocs\Magang\uploads\asd.jpg');
@@ -179,7 +182,8 @@ class Staff extends CI_Controller{
 		} 
 
 	function coba(){
-		$this->load->view('Staff/v_email_page');
+	    $mail_data['all_log']  =  $this->M_data->kirim_log()->result();
+		$this->load->view('Staff/v_email_page',$mail_data);
 	}
 }
 ?>

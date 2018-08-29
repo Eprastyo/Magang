@@ -1,10 +1,25 @@
 <?php
 class M_data extends CI_Model{
-	function tampil_data(){
-		return $this->db->get('t_data_utama');
+	function get_data($table){
+		return $this->db->get($table);
+	}
+	function send_progres(){
+		$nama = $this->session->userdata('nama');
+		$query = $this->db->select('email_group')->from('t_data_utama')->where('nama_pic', $nama)->get();
+ 		return $query->row()->email_group;
+	}
+	function data_user(){
+		$nama = $this->session->userdata('nama');
+		$query = $this->db->select('email')->from('t_data_user')->where('nama', $nama)->get();
+    	return $query->row()->email;
 	}
 	function tampil_detail_log($where,$table){
 		return $this->db->get_where($table,$where);
+	}
+	function kirim_log(){
+		$nama = $this->session->userdata('nama');
+	  	$sql = "SELECT * FROM t_log where nama_pic='$nama' ORDER BY update_log DESC";
+		return $this->db->query($sql);
 	}
 	function tampil_data_staff(){
 		$nama = $this->session->userdata('nama');
@@ -15,11 +30,6 @@ class M_data extends CI_Model{
 		$nama = $this->session->userdata('nama');
 		$sql = "SELECT * FROM t_data_utama where nama_pic='$nama'";
 		return $this->db->query($sql);
-	}
-	function data_user(){
-		$nama = $this->session->userdata('nama');
-		$query = $this->db->select('email')->from('t_data_user')->where('nama', $nama)->get();
-    	return $query->row()->email;
 	}
 	function tampil_update_log($where,$table){
 		return $this->db->get_where($table,$where);
@@ -49,6 +59,9 @@ class M_data extends CI_Model{
 
 	function input_data($data,$table){
 		return $this->db->insert($table,$data);
+	}
+	function input_data_email($data){
+		$this->db->insert('t_data_utama',$data);
 	}
 
 	function input_data_komen($where,$table,$data){

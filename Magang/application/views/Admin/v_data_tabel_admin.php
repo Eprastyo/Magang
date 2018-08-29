@@ -207,6 +207,21 @@
 
                       <div class="form-group">
                         <div class="col-sm-10">
+                        <label for="usr">Team</label><br>
+                          <div class="checkbox">
+                          <?php foreach ($mail_data as $pic){ ?>
+                              <?php if ($pic->level == "admin" || $pic->level == "manager"){?>
+                              <label><input type="checkbox" name="group_mail[]" value="<?php echo $pic->email ?>" onClick="return readOnlyCheckBox()" checked><?php echo $pic->nama ?></label>
+                              <?php }else{?>
+                              <label><input type="checkbox" name="group_mail[]" value="<?php echo $pic->email ?>">
+                              <?php echo $pic->nama ?></label>
+                          <?php }} ?>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="col-sm-10">
                           <label for="usr">Nama PIC Instansi</label>
                           <input type="text" name="pic_instansi" class="form-control">
                         </div>
@@ -398,6 +413,11 @@
         num.substring(num.length-(4*i+3));
         return (((sign)?'':'-') + 'Rp' + " "+ num + ',' + cents);
         }
+    </script>
+    <script type="text/javascript">
+      function readOnlyCheckBox() {
+      return false;
+    }
     </script>
   </body>
 </html>
